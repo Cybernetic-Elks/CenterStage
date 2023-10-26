@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,8 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-@TeleOp(name = "2023 TeleOp - CHOOSE THIS ONE", group = "TeleOp")
+@Disabled
+@TeleOp(name = "2023 TeleOp", group = "TeleOp")
 /**
  * Date Created:  7/30/2022
  * Purpose: This is going to be our main teleop for PowerPlay
@@ -92,7 +93,7 @@ public class TeleOp2023 extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            try {
+            /*try {
                 // Store the gamepad values from the previous loop iteration in
                 // previousGamepad1 and 2 to be used in this loop iteration.
                 // This is equivalent to doing this at the end of the previous
@@ -111,7 +112,7 @@ public class TeleOp2023 extends LinearOpMode {
             catch (RobotCoreException e) {
                 // Swallow the possible exception, it should not happen as
                 // currentGamepad1/2 are being copied from valid Gamepads.
-            }
+            }*/
             telemetry.addData("limitSwitch: ", limitSwitch);
             telemetry.addData("liftHoldingPositionValue: ", liftHoldingPositionValue);
             telemetry.addData("servoIntakeClose: ", h.servoIntakeClose.getPower());

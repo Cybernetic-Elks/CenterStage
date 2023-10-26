@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.acmerobotics.dashboard.config.Config;
+//import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
@@ -21,11 +21,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-@Config
 public class Hardware extends LinearOpMode
 {
     /**
-     * Programmer:    Aiden Smith (Sean Pakros after Aiden has left the team)
+     * Programmer:    Aiden Smith (Sean Pakros after Aiden has left the team) ((Kairon Johnson after Sean has left the team))
      * Date Created:  Sometime in 2017?
      * Purpose:       Contains all our hardware and functions, basically everything we need to run.
      **/
@@ -155,7 +154,7 @@ public class Hardware extends LinearOpMode
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
 
-        touch = aMap.touchSensor.get("touchSensor");
+        /*touch = aMap.touchSensor.get("touchSensor");
         distance = aMap.get(DistanceSensor.class, "distance");
         //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
@@ -168,7 +167,7 @@ public class Hardware extends LinearOpMode
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLift.setDirection(DcMotorSimple.Direction.REVERSE);*/
 
 
 
@@ -176,26 +175,26 @@ public class Hardware extends LinearOpMode
 
 
 
-        /*
+
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-         */
 
 
 
-        /*motorLift2 = aMap.dcMotor.get("motorLift2");
+/*
+        motorLift2 = aMap.dcMotor.get("motorLift2");
         motorLift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorLift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift2.setDirection(DcMotorSimple.Direction.REVERSE);*/
+        motorLift2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorTable = aMap.dcMotor.get("motorTable");
         motorTable.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorTable.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorTable.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorTable.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
     }
 
     /**

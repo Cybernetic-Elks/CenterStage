@@ -79,8 +79,8 @@ public class Test_BasicOmniOpMode_Linear extends LinearOpMode {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
@@ -106,8 +106,10 @@ public class Test_BasicOmniOpMode_Linear extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-       //code to see if this works
+        //code to see if this works
         leftFrontDrive.setPower(1);
         rightFrontDrive.setPower(1);
         leftBackDrive.setPower(1);
         rightBackDrive.setPower(1);
+    }
+}

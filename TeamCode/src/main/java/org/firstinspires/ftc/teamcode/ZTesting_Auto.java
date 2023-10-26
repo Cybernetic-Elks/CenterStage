@@ -4,11 +4,13 @@ import static org.firstinspires.ftc.teamcode.Hardware.Kd;
 import static org.firstinspires.ftc.teamcode.Hardware.Ki;
 import static org.firstinspires.ftc.teamcode.Hardware.Kp;
 
-import com.acmerobotics.dashboard.FtcDashboard;
+/*import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;*/
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -23,7 +25,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@Config
+@Disabled
+//@Config
 @Autonomous(name="ZTesting Auto", group="Auto")
 public class ZTesting_Auto extends LinearOpMode {
     static Hardware h = new Hardware();
