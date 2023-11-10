@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 //TODO Make it go to a high pole
-@Disabled
+//@Disabled
 @Autonomous(name="BASIC CENTERSTAGE", group="Auto")
 public class CenterStageAutonomous extends LinearOpMode {
     Hardware h = new Hardware();
