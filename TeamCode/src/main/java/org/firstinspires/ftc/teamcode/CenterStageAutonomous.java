@@ -15,8 +15,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 //TODO Make it go to a high pole
-//@Disabled
-@Autonomous(name="BASIC CENTERSTAGE", group="Auto")
+@Disabled
+@Autonomous(name="BASIC CENTERSTAGE1", group="Auto")
 public class CenterStageAutonomous extends LinearOpMode {
     Hardware h = new Hardware();
     IMU imu;

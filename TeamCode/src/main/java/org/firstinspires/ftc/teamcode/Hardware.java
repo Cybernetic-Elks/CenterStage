@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -34,29 +35,20 @@ public class Hardware extends LinearOpMode
     public DcMotor motorBackRight;//In use
     public DcMotor motorBackLeft;//In use
     public DcMotor motorFrontLeft;//In use
-    public DcMotor motorCarousel;
-    public DcMotor motorArm;
-    public DcMotor motorWinch;
     public DcMotor motorLift;    //In use
-    public DcMotor motorLift2;   //In use
-    public DcMotor motorTable;   //In use
+    public DcMotor motorIntake;
 
-    Servo servoIntake;
-    Servo servoWrist;
+    Servo servoIntakeLift;
+    Servo servoClaw;
+
 
 
     //CRServo servoWrist;
-    CRServo servoIntakeClose; //In use
-    CRServo servoIntakeFar; //In use
-    CRServo servoExtension;
-
-    //ColorSensor colorSensor;
-    DistanceSensor distance;
-    //Rev2mDistanceSensor distance;
+    CRServo servoArm; //In use
     TouchSensor touch; //In use
+    AnalogInput potArm;
 
     ModernRoboticsI2cGyro MRgyro;
-    ModernRoboticsI2cRangeSensor MRRange;
 
     BNO055IMU imu;
     Orientation angles;
@@ -127,10 +119,10 @@ public class Hardware extends LinearOpMode
     {
         telemetry = inputTelemetry;
         
-        motorFrontRight = aMap.dcMotor.get("motorFrontRight");
-        motorBackRight = aMap.dcMotor.get("motorBackRight");
-        motorBackLeft = aMap.dcMotor.get("motorBackLeft");
-        motorFrontLeft = aMap.dcMotor.get("motorFrontLeft");
+        motorFrontRight = aMap.dcMotor.get("motorFrontRight1");
+        motorBackRight = aMap.dcMotor.get("motorBackRight3");
+        motorBackLeft = aMap.dcMotor.get("motorBackLeft2");
+        motorFrontLeft = aMap.dcMotor.get("motorFrontLeft0");
 
         setDriveMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -154,26 +146,21 @@ public class Hardware extends LinearOpMode
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
 
-        /*touch = aMap.touchSensor.get("touchSensor");
-        distance = aMap.get(DistanceSensor.class, "distance");
-        //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
-
-
-        servoIntakeClose = aMap.crservo.get("servoIntakeClose");
-        servoIntakeFar = aMap.crservo.get("servoIntakeFar");
-        servoExtension = aMap.crservo.get("servoExtension");
-
-        motorLift = aMap.dcMotor.get("motorLift");
+        motorLift = aMap.dcMotor.get("liftDriver0");
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift.setDirection(DcMotorSimple.Direction.REVERSE);*/
+        motorLift.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        motorIntake = aMap.dcMotor.get("intakeMotor1");
+        motorIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        servoArm = aMap.crservo.get("swingArm3");
+        servoClaw = aMap.servo.get("outtakeClaw4");
+        servoIntakeLift = aMap.servo.get("intakeLift5");
 
-
-
-
+        potArm = aMap.analogInput.get("armPot01");
 
 
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -181,20 +168,6 @@ public class Hardware extends LinearOpMode
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-
-
-/*
-        motorLift2 = aMap.dcMotor.get("motorLift2");
-        motorLift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorLift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        motorTable = aMap.dcMotor.get("motorTable");
-        motorTable.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorTable.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorTable.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
     }
 
     /**

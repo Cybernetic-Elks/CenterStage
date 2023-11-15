@@ -51,14 +51,6 @@ public class DemoMode extends LinearOpMode
             boolean changed = false;
             boolean pressedIntake = gamepad1.x;
             boolean fast = gamepad2.right_stick_button;
-//            telemetry.addData("motorWinch Position: ", h.motorWinch.getCurrentPosition() + " busy =" + h.motorWinch.isBusy());
-//            telemetry.addData("motorWinch Power", winchPow);
-//            telemetry.addData("motorArm Position: ", h.motorArm.getCurrentPosition() + " busy =" + h.motorArm.isBusy());
-//            telemetry.addData("motorArm Power: ", h.motorArm.getPower());
-            //telemetry.addData("servoIntake: ", h.servoIntake.getPosition());
-//            telemetry.addData("fast boolean", fast);
-//            telemetry.addData("fastToggle boolean", fastToggle);
-//            telemetry.update();
             h.motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
             h.motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
             h.motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -108,15 +100,6 @@ public class DemoMode extends LinearOpMode
             }
             /** END Fine Tuning Controls**/
 
-            if (gamepad1.b) {
-                h.servoWrist.setPosition(.5);
-                wristPos = .5;
-            }
-            if (gamepad1.back) {
-                h.servoWrist.setPosition(.9);
-                wristPos = .9;
-            }
-
 
             /** Toggle code for opening and closing the claw, if you press x it will alternate between being closed and opened enough for one block
              *  If you press y it will open fully we rarely open it fully as it adds risk that we may grab two blocks
@@ -142,18 +125,6 @@ public class DemoMode extends LinearOpMode
 
             /** END CLAW CONTROL**/
             /** Simple controls for the carousel spin one way when 'b' is pressed another way when 'x' is pressed **/
-            if (gamepad2.b)
-            {
-                h.motorCarousel.setPower(.35); //.4
-            }
-            if (gamepad2.x)
-            {
-                h.motorCarousel.setPower(-.35); //.4
-            }
-            if (!gamepad2.x && !gamepad2.b)
-            {
-                h.motorCarousel.setPower(0);
-            }
             /** END CAROUSEL CONTROL **/
             /** Emergency switch to disable the limits on the arm in case we start the arm in the wrong position **/
             if(gamepad2.back)
@@ -164,20 +135,6 @@ public class DemoMode extends LinearOpMode
             /** Our arm controls, this rotates the arm so we can reach the different levels. If 'a' on gamepad1 is held while moving the arm
              * it will move at half speed for more precision. This is helpful for precision placing such as the team shipping element**/
 
-
-            if(gamepad1.right_trigger > .01 && h.motorArm.getCurrentPosition() < 1470)
-            {
-                h.motorArm.setPower(armSpeedDown);
-            }
-            if (gamepad1.right_bumper && h.motorArm.getCurrentPosition() > -200)
-            {
-                h.motorArm.setPower(armSpeedUp);
-            }
-
-            if((!gamepad1.right_bumper && gamepad1.right_trigger == 0) || (h.motorArm.getCurrentPosition() > 1470 || h.motorArm.getCurrentPosition() < -200))
-            {
-                h.motorArm.setPower(0);
-            }
 
             if(fastToggle)
             {
@@ -204,7 +161,7 @@ public class DemoMode extends LinearOpMode
 //                h.motorWinch.setPower(0);
 //            }
 
-            h.servoWrist.setPosition(wristPos);
+            
             pressedLastIterationIntake = pressedIntake;
             pressedLastIterationFast = fast;
 
