@@ -192,6 +192,26 @@ public class TeleOp2023 extends LinearOpMode {
                 h.motorLift.setPower(.7);
             }
 
+//            if(currentGamepad1.right_bumper){
+//                h.motorIntake.setPower(1);
+//            };
+//
+//            if(Math.abs(currentGamepad1.right_stick_y) > 0.05){
+//                h.motorLift.setPower(currentGamepad1.right_stick_y*.75);
+//            }
+//
+//            if(currentGamepad1.a){
+//                h.servoClaw.setPosition(0.5);
+//            }
+//
+//            if(currentGamepad1.dpad_up){
+//                h.servoIntakeLift.setPosition(0.5);
+//            }
+
+            if(currentGamepad1.b){
+
+            }
+
 
             /*
             if (currentGamepad2.dpad_up)

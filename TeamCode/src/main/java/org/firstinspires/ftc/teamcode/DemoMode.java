@@ -76,29 +76,64 @@ public class DemoMode extends LinearOpMode
              *  for actions such as placing the shipping element these would probably be the first thing I remove
              *  if I needed more controls
              **/
-            if (gamepad1.dpad_left || gamepad2.dpad_left) {
-                h.motorFrontLeft.setPower(-.2);
-                h.motorFrontRight.setPower(.2);
-                h.motorBackLeft.setPower(-.2);
-                h.motorBackRight.setPower(.2);
-            } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
-                h.motorFrontLeft.setPower(.2);
-                h.motorFrontRight.setPower(-.2);
-                h.motorBackLeft.setPower(.2);
-                h.motorBackRight.setPower(-.2);
-            }
-            if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                h.motorFrontLeft.setPower(.2);
-                h.motorFrontRight.setPower(.2);
-                h.motorBackLeft.setPower(.2);
-                h.motorBackRight.setPower(.2);
-            } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                h.motorFrontLeft.setPower(-.2);
-                h.motorFrontRight.setPower(-.2);
-                h.motorBackLeft.setPower(-.2);
-                h.motorBackRight.setPower(-.2);
-            }
+//            if (gamepad1.dpad_left || gamepad2.dpad_left) {
+//                h.motorFrontLeft.setPower(-.2);
+//                h.motorFrontRight.setPower(.2);
+//                h.motorBackLeft.setPower(-.2);
+//                h.motorBackRight.setPower(.2);
+//            } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
+//                h.motorFrontLeft.setPower(.2);
+//                h.motorFrontRight.setPower(-.2);
+//                h.motorBackLeft.setPower(.2);
+//                h.motorBackRight.setPower(-.2);
+//            }
+//            if (gamepad1.dpad_up || gamepad2.dpad_up) {
+//                h.motorFrontLeft.setPower(.2);
+//                h.motorFrontRight.setPower(.2);
+//                h.motorBackLeft.setPower(.2);
+//                h.motorBackRight.setPower(.2);
+//            } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
+//                h.motorFrontLeft.setPower(-.2);
+//                h.motorFrontRight.setPower(-.2);
+//                h.motorBackLeft.setPower(-.2);
+//                h.motorBackRight.setPower(-.2);
+//            }
             /** END Fine Tuning Controls**/
+
+//            if(gamepad1.y) {
+//                // move to 0 degrees.
+//                h.servoClaw.setPosition(0);
+//            } else if (gamepad1.x || gamepad1.b) {
+//                // move to 90 degrees.
+//                h.servoClaw.setPosition(0.5);
+//            } else if (gamepad1.a) {
+//                // move to 180 degrees.
+//                h.servoClaw.setPosition(1);
+//            }
+
+            if(gamepad1.right_bumper){
+                h.motorIntake.setPower(1);
+            }else{
+                h.motorIntake.setPower(0);
+            }
+//
+            if(Math.abs(gamepad1.right_stick_y) > 0.05){
+                h.motorLift.setPower(gamepad1.right_stick_y*.75);
+            }else{
+                h.motorLift.setPower(0);
+            }
+//
+//            if(gamepad1.a){
+//                h.servoClaw.setPosition(0.5);
+//            }else{
+////                h.servoClaw.setPosition(0.5);
+//            }
+//
+//            if(gamepad1.dpad_up){
+//                h.servoIntakeLift.setPosition(0.5);
+//            }else{
+////                h.servoIntakeLift.setPosition(0);
+//            }
 
 
             /** Toggle code for opening and closing the claw, if you press x it will alternate between being closed and opened enough for one block
