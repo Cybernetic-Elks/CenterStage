@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 //TODO Make it go to a high pole
-@Disabled
+//@Disabled
 @Autonomous(name="LEFT POWERPLAY OLD", group="Auto")
 public class PowerPlayAutonomous extends LinearOpMode {
     Hardware h = new Hardware();
@@ -28,8 +28,8 @@ public class PowerPlayAutonomous extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        SignalDetector detector = new SignalDetector(telemetry);
-        webCam.setPipeline(detector);
+//        SignalDetector detector = new SignalDetector(telemetry);
+//        webCam.setPipeline(detector);
         webCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -87,19 +87,19 @@ public class PowerPlayAutonomous extends LinearOpMode {
             telemetry.addData("motorFrontRight encoder value: ",h.motorFrontRight.getCurrentPosition());
             telemetry.addData("motorBackLeft encoder value: ",h.motorBackLeft.getCurrentPosition());
             telemetry.addData("motorBackRight encoder value: ",h.motorBackRight.getCurrentPosition());
-            telemetry.addData("Color:", detector.getSide());
+//            telemetry.addData("Color:", detector.getSide());
             telemetry.update();
-            switch (detector.getSide()) {
-                case GREEN: //bottom reversed if blue
-                    side = Side.ONE;
-                    break;
-                case PURPLE://middle reversed if blue
-                    side = Side.TWO;
-                    break;
-                case YELLOW://top reversed if blue
-                    side = Side.THREE;
-            }
-            telemetry.addData("ZONE:", detector.getSide());
+//            switch (detector.getSide()) {
+//                case GREEN: //bottom reversed if blue
+//                    side = Side.ONE;
+//                    break;
+//                case PURPLE://middle reversed if blue
+//                    side = Side.TWO;
+//                    break;
+//                case YELLOW://top reversed if blue
+//                    side = Side.THREE;
+//            }
+//            telemetry.addData("ZONE:", detector.getSide());
             //Start raising arm to low tower position
             h.motorLift.setTargetPosition(2000);
             h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -124,36 +124,36 @@ public class PowerPlayAutonomous extends LinearOpMode {
             h.drivePureEncoder(false, h.calculateTicks(5),.6);
             h.sleep(2500);
             //Park in correct zone
-            switch (side)
-            {
-                case ONE:
-                    h.strafePureEncoder(true, h.calculateTicks(14),.5);
-                    h.sleep(2500);
-                    h.drivePureEncoder(true, h.calculateTicks(44),.4);
-                    h.sleep(2500);
-                    h.turnIMU(90,.5,.3);
-                    h.sleep(1000);
-                    h.drive(true,40,.5);
-                    //TODO make it drive a bit more forward maybe
-                    break;
-                case TWO:
-                    h.strafePureEncoder(true, h.calculateTicks(14),.5);
-                    h.sleep(2500);
-                    h.drivePureEncoder(true, h.calculateTicks(44),.4);
-                    h.sleep(2500);
-                    h.turnIMU(90,.5,.3);
-                    h.sleep(1000);
-                    h.drive(true,18,.5);
-
-                    break;
-                case THREE:
-                    h.strafePureEncoder(true, h.calculateTicks(14),.5);
-                    h.sleep(2500);
-                    h.drivePureEncoder(true, h.calculateTicks(44),.5);
-                    h.sleep(2500);
-                    h.turnIMU(90,.5,.3);
-                    h.sleep(1000);
-                    break;
-            }
+//            switch (side)
+//            {
+//                case ONE:
+//                    h.strafePureEncoder(true, h.calculateTicks(14),.5);
+//                    h.sleep(2500);
+//                    h.drivePureEncoder(true, h.calculateTicks(44),.4);
+//                    h.sleep(2500);
+//                    h.turnIMU(90,.5,.3);
+//                    h.sleep(1000);
+//                    h.drive(true,40,.5);
+//                    //TODO make it drive a bit more forward maybe
+//                    break;
+//                case TWO:
+//                    h.strafePureEncoder(true, h.calculateTicks(14),.5);
+//                    h.sleep(2500);
+//                    h.drivePureEncoder(true, h.calculateTicks(44),.4);
+//                    h.sleep(2500);
+//                    h.turnIMU(90,.5,.3);
+//                    h.sleep(1000);
+//                    h.drive(true,18,.5);
+//
+//                    break;
+//                case THREE:
+//                    h.strafePureEncoder(true, h.calculateTicks(14),.5);
+//                    h.sleep(2500);
+//                    h.drivePureEncoder(true, h.calculateTicks(44),.5);
+//                    h.sleep(2500);
+//                    h.turnIMU(90,.5,.3);
+//                    h.sleep(1000);
+//                    break;
+//            }
     }
 }

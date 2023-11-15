@@ -51,14 +51,14 @@ public class DemoMode extends LinearOpMode
             boolean changed = false;
             boolean pressedIntake = gamepad1.x;
             boolean fast = gamepad2.right_stick_button;
-            telemetry.addData("motorWinch Position: ", h.motorWinch.getCurrentPosition() + " busy =" + h.motorWinch.isBusy());
-            telemetry.addData("motorWinch Power", winchPow);
-            telemetry.addData("motorArm Position: ", h.motorArm.getCurrentPosition() + " busy =" + h.motorArm.isBusy());
-            telemetry.addData("motorArm Power: ", h.motorArm.getPower());
+//            telemetry.addData("motorWinch Position: ", h.motorWinch.getCurrentPosition() + " busy =" + h.motorWinch.isBusy());
+//            telemetry.addData("motorWinch Power", winchPow);
+//            telemetry.addData("motorArm Position: ", h.motorArm.getCurrentPosition() + " busy =" + h.motorArm.isBusy());
+//            telemetry.addData("motorArm Power: ", h.motorArm.getPower());
             //telemetry.addData("servoIntake: ", h.servoIntake.getPosition());
-            telemetry.addData("fast boolean", fast);
-            telemetry.addData("fastToggle boolean", fastToggle);
-            telemetry.update();
+//            telemetry.addData("fast boolean", fast);
+//            telemetry.addData("fastToggle boolean", fastToggle);
+//            telemetry.update();
             h.motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
             h.motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
             h.motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -191,18 +191,18 @@ public class DemoMode extends LinearOpMode
             }
             //TODO update winch limits
 
-            if(gamepad1.left_trigger > .01 && h.motorWinch.getCurrentPosition() < 380)
-            {
-                h.motorWinch.setPower(winchPow);
-            }
-            if (gamepad1.left_bumper && h.motorWinch.getCurrentPosition() >= 10)
-            {
-                h.motorWinch.setPower(-winchPow);
-            }
-            if((!gamepad1.left_bumper && gamepad1.left_trigger == 0) || (h.motorWinch.getCurrentPosition() > 380 || h.motorWinch.getCurrentPosition() <= 10))
-            {
-                h.motorWinch.setPower(0);
-            }
+//            if(gamepad1.left_trigger > .01 && h.motorWinch.getCurrentPosition() < 380)
+//            {
+//                h.motorWinch.setPower(winchPow);
+//            }
+//            if (gamepad1.left_bumper && h.motorWinch.getCurrentPosition() >= 10)
+//            {
+//                h.motorWinch.setPower(-winchPow);
+//            }
+//            if((!gamepad1.left_bumper && gamepad1.left_trigger == 0) || (h.motorWinch.getCurrentPosition() > 380 || h.motorWinch.getCurrentPosition() <= 10))
+//            {
+//                h.motorWinch.setPower(0);
+//            }
 
             h.servoWrist.setPosition(wristPos);
             pressedLastIterationIntake = pressedIntake;
