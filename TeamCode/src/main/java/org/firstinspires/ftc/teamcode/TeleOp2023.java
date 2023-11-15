@@ -115,12 +115,12 @@ public class TeleOp2023 extends LinearOpMode {
             }*/
             telemetry.addData("limitSwitch: ", limitSwitch);
             telemetry.addData("liftHoldingPositionValue: ", liftHoldingPositionValue);
-            telemetry.addData("servoIntakeClose: ", h.servoIntakeClose.getPower());
-            telemetry.addData("servoIntakeFar: ", h.servoIntakeFar.getPower());
+//            telemetry.addData("servoIntakeClose: ", h.servoIntakeClose.getPower());
+//            telemetry.addData("servoIntakeFar: ", h.servoIntakeFar.getPower());
             telemetry.addData("motorLift current Pos: ", h.motorLift.getCurrentPosition());
             telemetry.addData("touchSensor is pressed: ", h.touch.isPressed());
-            telemetry.addData("motorTable current Pos: ", h.motorTable.getCurrentPosition());
-            telemetry.addData("range", String.format("%.01f in", h.distance.getDistance(DistanceUnit.INCH)));
+//            telemetry.addData("motorTable current Pos: ", h.motorTable.getCurrentPosition());
+//            telemetry.addData("range", String.format("%.01f in", h.distance.getDistance(DistanceUnit.INCH)));
             telemetry.addData("Intrinsic: ", h.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
             telemetry.addData("Extrinsic: ", h.imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
             telemetry.update();
@@ -227,27 +227,27 @@ public class TeleOp2023 extends LinearOpMode {
             }
             */
             //Intake
-            if (currentGamepad2.b) {
-                h.servoIntakeClose.setPower(1);
-                h.servoIntakeFar.setPower(-1);
-                dropping = false;
-            }
+//            if (currentGamepad2.b) {
+//                h.servoIntakeClose.setPower(1);
+//                h.servoIntakeFar.setPower(-1);
+//                dropping = false;
+//            }
 
             //Outtake
             if (currentGamepad2.a && !previousGamepad2.a) {
                 dropping = true;
                 outtake.reset();
             }
-            if (outtake.time() < 1 && dropping) {
-                h.servoIntakeClose.setPower(-1);
-                h.servoIntakeFar.setPower(1);
-            } else {
-                dropping = false;
-            }
+//            if (outtake.time() < 1 && dropping) {
+//                h.servoIntakeClose.setPower(-1);
+//                h.servoIntakeFar.setPower(1);
+//            } else {
+//                dropping = false;
+//            }
 
-            if (!currentGamepad2.a && !currentGamepad2.b && !dropping) {
-                h.servoIntakeClose.setPower(0);
-                h.servoIntakeFar.setPower(0);
+//            if (!currentGamepad2.a && !currentGamepad2.b && !dropping) {
+//                h.servoIntakeClose.setPower(0);
+//                h.servoIntakeFar.setPower(0);
             }
 
 
@@ -286,55 +286,55 @@ public class TeleOp2023 extends LinearOpMode {
 
             //Turn Table Manual
 
-            if (currentGamepad2.right_stick_x > 0.01) {
-                h.motorTable.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                h.motorTable.setPower(.4);
-            } else if (currentGamepad2.right_stick_x < -0.01) {
-                h.motorTable.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                h.motorTable.setPower(-.4);
-            }
+//            if (currentGamepad2.right_stick_x > 0.01) {
+//                h.motorTable.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                h.motorTable.setPower(.4);
+//            } else if (currentGamepad2.right_stick_x < -0.01) {
+//                h.motorTable.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                h.motorTable.setPower(-.4);
+//            }
 
             //Turn Table Auto
-            if (currentGamepad2.left_bumper) //Move table to the left of the robot
-            {
-                h.motorTable.setTargetPosition(LEFT_TABLE_POS);
-                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorTable.setPower(1);
-            } else if (currentGamepad2.left_trigger > 0.01) //Move table to the right of the robot
-            {
-                h.motorTable.setTargetPosition(RIGHT_TABLE_POS);
-                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorTable.setPower(1);
-            } else if (currentGamepad2.right_trigger > 0.01) //Move table to in front of the robot
-            {
-                h.motorTable.setTargetPosition(FRONT_TABLE_POS);
-                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorTable.setPower(1);
-            } else if (currentGamepad2.right_bumper) //Move table to the back of the robot
-            {
-                h.motorTable.setTargetPosition(BACK_TABLE_POS);
-                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorTable.setPower(1);
-            }
-            if (!h.motorTable.isBusy() && !(currentGamepad2.right_stick_x > 0.01) && !(currentGamepad2.right_stick_x < -0.01))
-            {
-                h.motorTable.setPower(0);
-            }
+//            if (currentGamepad2.left_bumper) //Move table to the left of the robot
+//            {
+//                h.motorTable.setTargetPosition(LEFT_TABLE_POS);
+//                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorTable.setPower(1);
+//            } else if (currentGamepad2.left_trigger > 0.01) //Move table to the right of the robot
+//            {
+//                h.motorTable.setTargetPosition(RIGHT_TABLE_POS);
+//                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorTable.setPower(1);
+//            } else if (currentGamepad2.right_trigger > 0.01) //Move table to in front of the robot
+//            {
+//                h.motorTable.setTargetPosition(FRONT_TABLE_POS);
+//                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorTable.setPower(1);
+//            } else if (currentGamepad2.right_bumper) //Move table to the back of the robot
+//            {
+//                h.motorTable.setTargetPosition(BACK_TABLE_POS);
+//                h.motorTable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorTable.setPower(1);
+//            }
+//            if (!h.motorTable.isBusy() && !(currentGamepad2.right_stick_x > 0.01) && !(currentGamepad2.right_stick_x < -0.01))
+//            {
+//                h.motorTable.setPower(0);
+//            }
 
-            if (currentGamepad2.dpad_left)
-            {
-                h.servoExtension.setPower(1);
-            }
-            if (currentGamepad2.dpad_right)
-            {
-                h.servoExtension.setPower(-1);
-            }
-            if(!currentGamepad2.dpad_left && !currentGamepad2.dpad_right)
-            {
-                h.servoExtension.setPower(0);
-            }
+//            if (currentGamepad2.dpad_left)
+//            {
+//                h.servoExtension.setPower(1);
+//            }
+//            if (currentGamepad2.dpad_right)
+//            {
+//                h.servoExtension.setPower(-1);
+//            }
+//            if(!currentGamepad2.dpad_left && !currentGamepad2.dpad_right)
+//            {
+//                h.servoExtension.setPower(0);
+//            }
 
-        }
+//        }
     }
 }
 // Loren was here hi hou7 r u?///

@@ -161,7 +161,7 @@ public class DemoMode extends LinearOpMode
 //                h.motorWinch.setPower(0);
 //            }
 
-            
+
             pressedLastIterationIntake = pressedIntake;
             pressedLastIterationFast = fast;
 

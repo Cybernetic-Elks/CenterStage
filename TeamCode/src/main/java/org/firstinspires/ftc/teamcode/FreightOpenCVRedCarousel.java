@@ -146,10 +146,10 @@ public class FreightOpenCVRedCarousel extends LinearOpMode {
 
         h.sleep(3000);
 
-        h.motorCarousel.setPower(.3);
+//        h.motorCarousel.setPower(.3);
         h.sleep(5000);
 
-        h.motorCarousel.setPower(0);
+//        h.motorCarousel.setPower(0);
 
         h.drivePureEncoder(true,1270,.2);
 
@@ -175,89 +175,89 @@ public class FreightOpenCVRedCarousel extends LinearOpMode {
 
         h.drivePureEncoder(true,1550,.2);
 
-        switch (position)
-        {
-            case TOP:
-                h.motorWinch.setTargetPosition(400);
-                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorWinch.setPower(.5);
-
-                while (h.motorWinch.isBusy() && !isStopRequested())
-                {
-                    telemetry.addData("motorWinch Pos: ", h.motorWinch.getCurrentPosition());
-                    telemetry.update();
-                }
-
-                //h.servoIntake.setPosition(0);
-
-                h.sleep(300);
-
-                h.motorWinch.setTargetPosition(0);
-                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorWinch.setPower(.5);
-                break;
-
-            case MIDDLE:
-                h.motorArm.setTargetPosition(500);
-                h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorArm.setPower(.5);
-
-                while (h.motorArm.isBusy() && !isStopRequested())
-                {
-                    telemetry.addData("motorArm Pos: ", h.motorArm.getCurrentPosition());
-                    telemetry.update();
-                }
-
-                h.motorWinch.setTargetPosition(250);
-                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorWinch.setPower(.5);
-
-                while (h.motorWinch.isBusy() && !isStopRequested())
-                {
-                    telemetry.addData("motorWinch Pos: ", h.motorWinch.getCurrentPosition());
-                    telemetry.update();
-                }
-
-                //h.servoIntake.setPosition(0);
-
-                h.sleep(300);
-
-                h.motorWinch.setTargetPosition(0);
-                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorWinch.setPower(.5);
-                break;
-
-            case BOTTOM:
-                h.motorArm.setTargetPosition(988);
-                h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorArm.setPower(.5);
-
-                while (h.motorArm.isBusy() && !isStopRequested())
-                {
-                    telemetry.addData("motorArm Pos: ", h.motorArm.getCurrentPosition());
-                    telemetry.update();
-                }
-
-                h.motorWinch.setTargetPosition(112);
-                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorWinch.setPower(.5);
-
-                while (h.motorWinch.isBusy() && !isStopRequested())
-                {
-                    telemetry.addData("motorWinch Pos: ", h.motorWinch.getCurrentPosition());
-                    telemetry.update();
-                }
-
-                //h.servoIntake.setPosition(0);
-
-                h.sleep(1000);
-
-                h.motorWinch.setTargetPosition(0);
-                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorWinch.setPower(.5);
-                break;
-
-        }
+//        switch (position)
+//        {
+//            case TOP:
+//                h.motorWinch.setTargetPosition(400);
+//                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorWinch.setPower(.5);
+//
+//                while (h.motorWinch.isBusy() && !isStopRequested())
+//                {
+//                    telemetry.addData("motorWinch Pos: ", h.motorWinch.getCurrentPosition());
+//                    telemetry.update();
+//                }
+//
+//                //h.servoIntake.setPosition(0);
+//
+//                h.sleep(300);
+//
+//                h.motorWinch.setTargetPosition(0);
+//                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorWinch.setPower(.5);
+//                break;
+//
+//            case MIDDLE:
+//                h.motorArm.setTargetPosition(500);
+//                h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorArm.setPower(.5);
+//
+//                while (h.motorArm.isBusy() && !isStopRequested())
+//                {
+//                    telemetry.addData("motorArm Pos: ", h.motorArm.getCurrentPosition());
+//                    telemetry.update();
+//                }
+//
+//                h.motorWinch.setTargetPosition(250);
+//                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorWinch.setPower(.5);
+//
+//                while (h.motorWinch.isBusy() && !isStopRequested())
+//                {
+//                    telemetry.addData("motorWinch Pos: ", h.motorWinch.getCurrentPosition());
+//                    telemetry.update();
+//                }
+//
+//                //h.servoIntake.setPosition(0);
+//
+//                h.sleep(300);
+//
+//                h.motorWinch.setTargetPosition(0);
+//                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorWinch.setPower(.5);
+//                break;
+//
+//            case BOTTOM:
+//                h.motorArm.setTargetPosition(988);
+//                h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorArm.setPower(.5);
+//
+//                while (h.motorArm.isBusy() && !isStopRequested())
+//                {
+//                    telemetry.addData("motorArm Pos: ", h.motorArm.getCurrentPosition());
+//                    telemetry.update();
+//                }
+//
+//                h.motorWinch.setTargetPosition(112);
+//                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorWinch.setPower(.5);
+//
+//                while (h.motorWinch.isBusy() && !isStopRequested())
+//                {
+//                    telemetry.addData("motorWinch Pos: ", h.motorWinch.getCurrentPosition());
+//                    telemetry.update();
+//                }
+//
+//                //h.servoIntake.setPosition(0);
+//
+//                h.sleep(1000);
+//
+//                h.motorWinch.setTargetPosition(0);
+//                h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                h.motorWinch.setPower(.5);
+//                break;
+//
+//        }
         h.drivePureEncoder(false,1550,.2);
 
         h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -278,9 +278,9 @@ public class FreightOpenCVRedCarousel extends LinearOpMode {
 
         h.sleep(2000);
 
-        h.motorArm.setTargetPosition(0);
-        h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        h.motorArm.setPower(.5);
+//        h.motorArm.setTargetPosition(0);
+//        h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        h.motorArm.setPower(.5);
 
         while (opModeIsActive())
         {

@@ -115,11 +115,11 @@ public class PowerPlayAutonomous extends LinearOpMode {
             h.sleep(2500);
 
             //Drop cone
-            h.servoIntakeClose.setPower(-1);
-            h.servoIntakeFar.setPower(1);
-            h.sleep(1700);
-            h.servoIntakeClose.setPower(0);
-            h.servoIntakeFar.setPower(0);
+//            h.servoIntakeClose.setPower(-1);
+//            h.servoIntakeFar.setPower(1);
+//            h.sleep(1700);
+//            h.servoIntakeClose.setPower(0);
+//            h.servoIntakeFar.setPower(0);
 
             h.drivePureEncoder(false, h.calculateTicks(5),.6);
             h.sleep(2500);
