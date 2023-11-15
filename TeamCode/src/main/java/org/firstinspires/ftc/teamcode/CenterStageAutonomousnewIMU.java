@@ -1,31 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 
 //TODO Make it go to a high pole
 //@Disabled
 @Autonomous(name="BASIC CENTERSTAGE", group="Auto")
-public class CenterStageAutonomous extends LinearOpMode {
+public class CenterStageAutonomousnewIMU extends LinearOpMode {
     Hardware h = new Hardware();
     IMU imu;
-    OpenCvCamera webCam;
+    //OpenCvCamera webCam;
 
     public enum Side {
-        ONE,
-        TWO,
-        THREE
+        //ONE,
+        //TWO,
+        //THREE
     }
 
     Side side;
@@ -84,6 +77,14 @@ public class CenterStageAutonomous extends LinearOpMode {
         h.sleep(250);
         h.drivePureEncoder(false, h.calculateTicks(15), .2);
         h.sleep(250);
-        h.turnIMU(90,.2,.1);
+        h.motorFrontLeft.setPower(.2);
+        h.motorBackLeft.setPower(.2);
+        h.motorFrontRight.setPower(.2);
+        h.motorBackRight.setPower(.2);
+        h.sleep(1500);
+        h.motorFrontLeft.setPower(0);
+        h.motorBackLeft.setPower(0);
+        h.motorFrontRight.setPower(0);
+        h.motorBackRight.setPower(0);
     }
 }
