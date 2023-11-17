@@ -38,13 +38,13 @@ public class Hardware extends LinearOpMode
     public DcMotor motorLift;    //In use
     public DcMotor motorIntake;
 
-    Servo servoIntakeLift;
-    Servo servoClaw;
+    public Servo servoIntakeLift;
+    public Servo servoClaw;
 
 
 
     //CRServo servoWrist;
-    CRServo servoArm; //In use
+    public Servo servoArm; //In use
     TouchSensor touch; //In use
     AnalogInput potArm;
 
@@ -156,11 +156,13 @@ public class Hardware extends LinearOpMode
         motorIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        servoArm = aMap.crservo.get("swingArm3");
+        servoArm = aMap.servo.get("swingArm3");
         servoClaw = aMap.servo.get("outtakeClaw4");
+//        servoClaw.setPosition(0.3);
         servoIntakeLift = aMap.servo.get("intakeLift5");
+//        servoIntakeLift.setPosition(0.5);
 
-        potArm = aMap.analogInput.get("armPot01");
+//        potArm = aMap.analogInput.get("armPot01");
 
 
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

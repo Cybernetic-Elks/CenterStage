@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class DemoMode extends LinearOpMode
 {
     OpMode opmode;
+    boolean pressed = false;
 
     @Override
     public void runOpMode() {
@@ -100,40 +101,60 @@ public class DemoMode extends LinearOpMode
 //            }
             /** END Fine Tuning Controls**/
 
-//            if(gamepad1.y) {
-//                // move to 0 degrees.
-//                h.servoClaw.setPosition(0);
-//            } else if (gamepad1.x || gamepad1.b) {
-//                // move to 90 degrees.
-//                h.servoClaw.setPosition(0.5);
-//            } else if (gamepad1.a) {
-//                // move to 180 degrees.
-//                h.servoClaw.setPosition(1);
-//            }
-
-            if(gamepad1.right_bumper){
-                h.motorIntake.setPower(1);
-            }else{
-                h.motorIntake.setPower(0);
-            }
 //
-            if(Math.abs(gamepad1.right_stick_y) > 0.05){
-                h.motorLift.setPower(gamepad1.right_stick_y*.75);
+            if(gamepad1.left_trigger > 0.05){
+                h.motorLift.setPower(gamepad1.left_trigger*.75);
             }else{
                 h.motorLift.setPower(0);
             }
 //
-//            if(gamepad1.a){
-//                h.servoClaw.setPosition(0.5);
-//            }else{
-////                h.servoClaw.setPosition(0.5);
-//            }
-//
-//            if(gamepad1.dpad_up){
-//                h.servoIntakeLift.setPosition(0.5);
-//            }else{
-////                h.servoIntakeLift.setPosition(0);
-//            }
+            if(gamepad1.x && pressed == false){
+                pressed=true;
+                h.servoClaw.setPosition(.76);//h.servoClaw.getPosition()+.01
+            }
+            if(gamepad1.y && pressed == false){
+                pressed=true;
+                h.servoClaw.setPosition(.43);//h.servoClaw.getPosition()-.01
+            }
+
+
+            if(gamepad1.dpad_up && pressed == false){
+                pressed = true;
+                h.servoArm.setPosition(.45);//.38
+//                telemetry.addData("Status1", "Here");
+            }
+
+            if(gamepad1.dpad_down && pressed == false){
+                pressed = true;
+                h.servoArm.setPosition(.18);//h.servoArm.getPosition()-.01
+            }
+            if(gamepad2.dpad_up){
+                h.servoIntakeLift.setPosition(.67);//h.servoIntakeLift.getPosition()+.01
+            }
+            if(gamepad2.dpad_down){
+                h.servoIntakeLift.setPosition(.76);//h.servoIntakeLift.getPosition()-.01
+            }
+            if(!gamepad1.x&&!gamepad1.y &&!gamepad1.dpad_up &&!gamepad1.dpad_down){
+                pressed = false;
+            }
+//            if(h.servoIntakeLift>0)
+            if(gamepad2.dpad_right){
+                h.servoIntakeLift.setPosition(.72);//.77
+            }
+            if(gamepad1.right_trigger>.10) {
+                h.motorIntake.setPower(gamepad1.right_trigger);
+            }
+            if(gamepad1.b) {
+                    h.motorIntake.setPower(0);
+            }
+            if(gamepad1.left_bumper) {
+                h.motorLift.setPower(-.6);
+            }
+            telemetry.addData("Arm Position", h.servoArm.getPosition());
+            telemetry.addData("Intake Position", h.servoIntakeLift.getPosition());
+            telemetry.addData("Claw Position", h.servoClaw.getPosition());
+            telemetry.addData("Status", "Running");
+            telemetry.update();
 
 
             /** Toggle code for opening and closing the claw, if you press x it will alternate between being closed and opened enough for one block
