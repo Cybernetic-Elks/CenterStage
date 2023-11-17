@@ -17,7 +17,15 @@ import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 @Autonomous
 public class OpenCVTest extends OpMode {
-
+    public Mat YCbCr = new Mat();
+    public Mat leftCrop;
+    public Mat rightCrop;
+    public Mat centerCrop;
+    public double leftavgfin;
+    public double rightavgfin;
+    public double centeravgfin;
+    public Mat outPut = new Mat();
+    public Scalar rectColor = new Scalar(255.0, 0.0, 0.0);
     OpenCvWebcam webcam1 = null;
 
     @Override
@@ -46,15 +54,7 @@ public class OpenCVTest extends OpMode {
     }
 
     class examplePipeline extends OpenCvPipeline{
-        Mat YCbCr = new Mat();
-        Mat leftCrop;
-        Mat rightCrop;
-        Mat centerCrop;
-        double leftavgfin;
-        double rightavgfin;
-        double centeravgfin;
-        Mat outPut = new Mat();
-        Scalar rectColor = new Scalar(255.0, 0.0, 0.0);
+
 
 
         public Mat processFrame(Mat input){

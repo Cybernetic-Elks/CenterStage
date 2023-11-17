@@ -126,7 +126,7 @@ public class DemoMode extends LinearOpMode
 
             if(gamepad1.dpad_down && pressed == false){
                 pressed = true;
-                h.servoArm.setPosition(.18);//h.servoArm.getPosition()-.01
+                h.servoArm.setPosition(.15);//h.servoArm.getPosition()-.01
             }
             if(gamepad2.dpad_up){
                 h.servoIntakeLift.setPosition(.67);//h.servoIntakeLift.getPosition()+.01
