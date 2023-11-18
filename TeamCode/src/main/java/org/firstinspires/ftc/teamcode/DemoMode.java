@@ -129,13 +129,14 @@ public class DemoMode extends LinearOpMode
 
             if(gamepad1.dpad_up && pressed == false){
                 pressed = true;
-                h.servoArm.setPosition(h.servoArm.getPosition()+.015);//.38
+                h.servoArm.setPosition(.38);//.38
 //                telemetry.addData("Status1", "Here");
+                h.servoArm.setPosition(h.servoArm.getPosition() + .01);
             }
 
             if(gamepad1.dpad_down && pressed == false){
                 pressed = true;
-                h.servoArm.setPosition(h.servoArm.getPosition()-.01);//15
+                h.servoArm.setPosition(h.servoArm.getPosition() - .01);//.15
             }
             if(gamepad2.dpad_up){
                 h.servoIntakeLift.setPosition(.67);//h.servoIntakeLift.getPosition()+.01
@@ -158,6 +159,9 @@ public class DemoMode extends LinearOpMode
             }
             if(gamepad1.left_bumper) {
                 h.motorLift.setPower(-.6);
+            }
+            if(gamepad1.right_bumper) {
+                h.motorIntake.setPower(-.7);
             }
             telemetry.addData("Arm Position", h.servoArm.getPosition());
             telemetry.addData("Intake Position", h.servoIntakeLift.getPosition());
