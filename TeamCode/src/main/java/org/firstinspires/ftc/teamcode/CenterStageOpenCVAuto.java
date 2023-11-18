@@ -153,7 +153,7 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 while (h.motorLift.getCurrentPosition() > -1485 + 20 && !isStopRequested()){}
                 h.sleep(3000);
                 h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1000, .2);
+                h.drivePureEncoder(false, 1315, .2); // Josiah Changed to 1315
                 h.sleep(3500);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -228,7 +228,7 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1625, .2);
+                h.drivePureEncoder(false, 1940, .2); // Josiah changed from 1625 to 1940
                 h.sleep(500);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -307,7 +307,7 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 while (h.motorLift.getCurrentPosition() > -1350 + 20 && !isStopRequested()){}
                 h.sleep(1000);
                 h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1525, .2);
+                h.drivePureEncoder(false, 1840, .2); // Josiah changed from 1525 to 1840
                 h.sleep(1000);
                 h.motorLift.setTargetPosition(-900);
                 h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
