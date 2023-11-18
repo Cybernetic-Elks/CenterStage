@@ -177,7 +177,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 while (h.motorLift.getCurrentPosition() > -1485 + 20 && !isStopRequested()){}
                 h.sleep(2000);
                 h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1315, .2);
+                h.drivePureEncoder(false, 1315, .2); 
                 h.sleep(500);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
