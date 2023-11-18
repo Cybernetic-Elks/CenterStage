@@ -177,17 +177,17 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 while (h.motorLift.getCurrentPosition() > -1485 + 20 && !isStopRequested()){}
                 h.sleep(2000);
                 h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1115, .2);
+                h.drivePureEncoder(false, 1315, .2);
                 h.sleep(500);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(-500);
+                h.motorFrontLeft.setTargetPosition(-100);
                 h.motorFrontRight.setTargetPosition(100);
                 h.motorBackLeft.setTargetPosition(100);
-                h.motorBackRight.setTargetPosition(-500);
+                h.motorBackRight.setTargetPosition(-100);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -199,7 +199,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
                 while (h.motorFrontRight.getCurrentPosition() < 100 - 20 && h.motorBackLeft.getCurrentPosition() < 100 - 20 &&
-                        h.motorFrontLeft.getCurrentPosition() > -500 + 20 && h.motorBackRight.getCurrentPosition() > -500 + 20) {}
+                        h.motorFrontLeft.getCurrentPosition() > -100 + 20 && h.motorBackRight.getCurrentPosition() > -100 + 20) {}
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -284,10 +284,10 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(-300);
-                h.motorFrontRight.setTargetPosition(200);
-                h.motorBackLeft.setTargetPosition(200);
-                h.motorBackRight.setTargetPosition(-300);
+                h.motorFrontLeft.setTargetPosition(-150);
+                h.motorFrontRight.setTargetPosition(150);
+                h.motorBackLeft.setTargetPosition(150);
+                h.motorBackRight.setTargetPosition(-150);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -298,8 +298,8 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorFrontRight.getCurrentPosition() < 200 - 20 && h.motorBackLeft.getCurrentPosition() < 200 - 20 &&
-                        h.motorFrontLeft.getCurrentPosition() > -300 + 20 && h.motorBackRight.getCurrentPosition() > -300 + 20) {}
+                while (h.motorFrontRight.getCurrentPosition() < 150 - 20 && h.motorBackLeft.getCurrentPosition() < 150 - 20 &&
+                        h.motorFrontLeft.getCurrentPosition() > -150 + 20 && h.motorBackRight.getCurrentPosition() > -150 + 20) {}
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
