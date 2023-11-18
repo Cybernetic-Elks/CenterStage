@@ -54,10 +54,10 @@ public class PropDetector extends OpenCvPipeline {
         middle.release();
         right.release();
 
-        telemetry.addData("Middle raw value", (int) Core.sumElems(middle).val[0]);
-        telemetry.addData("Right raw value", (int) Core.sumElems(right).val[0]);
-        telemetry.addData("Middle percentage", Math.round(leftValue * 100) + "%");
-        telemetry.addData("Right percentage", Math.round(middleValue * 100) + "%");
+//        telemetry.addData("Middle raw value", (int) Core.sumElems(middle).val[0]);
+//        telemetry.addData("Right raw value", (int) Core.sumElems(right).val[0]);
+//        telemetry.addData("Middle percentage", Math.round(leftValue * 100) + "%");
+//        telemetry.addData("Right percentage", Math.round(middleValue * 100) + "%");
 
         boolean stoneLeft = leftValue > PERCENT_COLOR_THRESHOLD;
         boolean stoneMiddle = middleValue > PERCENT_COLOR_THRESHOLD;

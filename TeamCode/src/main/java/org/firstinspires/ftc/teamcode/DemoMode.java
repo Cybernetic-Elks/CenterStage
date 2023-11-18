@@ -52,10 +52,10 @@ public class DemoMode extends LinearOpMode
             boolean changed = false;
             boolean pressedIntake = gamepad1.x;
             boolean fast = gamepad2.right_stick_button;
-            h.motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-            h.motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-            h.motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-            h.motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+            h.motorFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+            h.motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+            h.motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+            h.motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
             if(fast && !pressedLastIterationFast)
             {
@@ -101,6 +101,15 @@ public class DemoMode extends LinearOpMode
 //            }
             /** END Fine Tuning Controls**/
 
+            telemetry.addData("motorFrontLeft encoder value: ", h.motorFrontLeft.getCurrentPosition());
+            telemetry.addData("motorFrontRight encoder value: ", h.motorFrontRight.getCurrentPosition());
+            telemetry.addData("motorBackLeft encoder value: ", h.motorBackLeft.getCurrentPosition());
+            telemetry.addData("motorBackRight encoder value: ", h.motorBackRight.getCurrentPosition());
+            telemetry.addData("slides encoder value: ", h.motorLift.getCurrentPosition());
+            telemetry.addData("arm encoder value: ", h.servoArm.getPosition());
+            telemetry.addData("outtake encoder value: ", h.servoClaw.getPosition());
+            telemetry.update();
+
 //
             if(gamepad1.left_trigger > 0.05){
                 h.motorLift.setPower(gamepad1.left_trigger*.75);
@@ -110,23 +119,23 @@ public class DemoMode extends LinearOpMode
 //
             if(gamepad1.x && pressed == false){
                 pressed=true;
-                h.servoClaw.setPosition(.76);//h.servoClaw.getPosition()+.01
+                h.servoClaw.setPosition(.43);//h.servoClaw.getPosition()+.01
             }
             if(gamepad1.y && pressed == false){
                 pressed=true;
-                h.servoClaw.setPosition(.43);//h.servoClaw.getPosition()-.01
+                h.servoClaw.setPosition(.1);//h.servoClaw.getPosition()-.01
             }
 
 
             if(gamepad1.dpad_up && pressed == false){
                 pressed = true;
-                h.servoArm.setPosition(.45);//.38
+                h.servoArm.setPosition(h.servoArm.getPosition()+.015);//.38
 //                telemetry.addData("Status1", "Here");
             }
 
             if(gamepad1.dpad_down && pressed == false){
                 pressed = true;
-                h.servoArm.setPosition(.15);//h.servoArm.getPosition()-.01
+                h.servoArm.setPosition(h.servoArm.getPosition()-.01);//15
             }
             if(gamepad2.dpad_up){
                 h.servoIntakeLift.setPosition(.67);//h.servoIntakeLift.getPosition()+.01
@@ -142,7 +151,7 @@ public class DemoMode extends LinearOpMode
                 h.servoIntakeLift.setPosition(.72);//.77
             }
             if(gamepad1.right_trigger>.10) {
-                h.motorIntake.setPower(gamepad1.right_trigger);
+                h.motorIntake.setPower(gamepad1.right_trigger + .3);
             }
             if(gamepad1.b) {
                     h.motorIntake.setPower(0);

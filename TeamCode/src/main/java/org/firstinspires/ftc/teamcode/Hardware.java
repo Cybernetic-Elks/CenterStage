@@ -433,8 +433,6 @@ public class Hardware extends LinearOpMode
 
         }
 
-
-
         /*motorFrontLeft.setTargetPosition(0);
         motorFrontRight.setTargetPosition(0);
         motorBackLeft.setTargetPosition(0);
@@ -451,6 +449,37 @@ public class Hardware extends LinearOpMode
         motorBackRight.setPower(0);
 
     }
+    public void driveDiagonal(boolean forward, int distanceEncodeVal, double power)
+    {
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFrontLeft.setTargetPosition(distanceEncodeVal);
+        motorFrontRight.setTargetPosition(0);
+        motorBackLeft.setTargetPosition(0);
+        motorBackRight.setTargetPosition(distanceEncodeVal);
+
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFrontLeft.setPower((float) power);
+        motorFrontRight.setPower((float) power);
+        motorBackLeft.setPower((float) power);
+        motorBackRight.setPower((float) power);
+        while (motorBackRight.getCurrentPosition() < distanceEncodeVal - 20 && !isStopRequested() && motorFrontLeft.getCurrentPosition() < distanceEncodeVal - 20) {
+
+        }
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    }
+
 
     /**
      * Drives the robot left/right a set number of inches at a set power
