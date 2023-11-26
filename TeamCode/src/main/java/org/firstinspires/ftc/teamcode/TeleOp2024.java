@@ -11,6 +11,11 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -35,6 +40,17 @@ public class TeleOp2024 extends LinearOpMode {
             telemetry.addData("Init Error:", "Something failed to initialize");
             e.printStackTrace();
         }
+        AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
+                    .setDrawAxes(true)
+                    .setDrawCubeProjection(true)
+                    .setDrawTagID(true)
+                    .setDrawTagOutline(true)
+                    .build();
+
+        VisionPortal visionPortal = new VisionPortal.Builder()
+                    .addProcessor(tagProcessor)
+                    .setCamera(hardwareMap.get(WebcamName.class, "outtakeWebcam"))
+                    .build();
 
         // IMU not working yet, saving this for later
 //        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -75,6 +91,19 @@ public class TeleOp2024 extends LinearOpMode {
             h.motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             h.motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             h.driveOmniDir(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, false, 2, 1);
+
+            //AprilTags for goodness
+            if (tagProcessor.getDetections().size() > 0) {
+                AprilTagDetection tag = tagProcessor.getDetections().get(0);
+                if (gamepad2.a) {
+                    if (tag.ftcPose.yaw > 0) {
+                        h.turnnoIMU(true, 50, .2);
+                    }
+                    if (tag.ftcPose.yaw < 0) {
+                        h.turnnoIMU(false, 50, .2);
+                    }
+                }
+            }
 
             //all off the inputs
             if(gamepad1.left_trigger > 0.05){

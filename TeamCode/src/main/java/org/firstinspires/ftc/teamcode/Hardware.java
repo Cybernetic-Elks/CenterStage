@@ -1046,6 +1046,68 @@ public class Hardware extends LinearOpMode
         motorBackRight.setPower(motorPower);
     }
 
+    public void turnnoIMU(boolean left, int distanceEncodeVal, double power)
+    {motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        driveTime = distanceEncodeVal;
+
+
+        if(left)
+        {
+            motorFrontLeft.setTargetPosition(-distanceEncodeVal);
+            motorFrontRight.setTargetPosition(distanceEncodeVal);
+            motorBackLeft.setTargetPosition(-distanceEncodeVal);
+            motorBackRight.setTargetPosition(distanceEncodeVal);
+        }
+        else
+        {
+            motorFrontLeft.setTargetPosition(distanceEncodeVal);
+            motorFrontRight.setTargetPosition(-distanceEncodeVal);
+            motorBackLeft.setTargetPosition(distanceEncodeVal);
+            motorBackRight.setTargetPosition(-distanceEncodeVal);
+        }
+
+        motorFrontLeft.setPower(power);
+        motorFrontRight.setPower(power);
+        motorBackLeft.setPower(power);
+        motorBackRight.setPower(power);
+
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if(left)
+        {
+            while (motorFrontRight.getCurrentPosition() < distanceEncodeVal - 20 && !isStopRequested())
+            {
+
+            }
+        }
+        else
+        {
+
+            while (motorFrontRight.getCurrentPosition() > -distanceEncodeVal + 20 && !isStopRequested())
+            {
+
+            }
+
+        }
+
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFrontLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
+
+    }
     /**
      * Sets all drive motors to a certain mode. Used to save a few lines in autonomous mainly
      *
