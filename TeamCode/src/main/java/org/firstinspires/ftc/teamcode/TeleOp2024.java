@@ -69,19 +69,19 @@ public class TeleOp2024 extends LinearOpMode {
 //        telemetry.update();
 
         // make sure the imu gyro is calibrated before continuing.
-        while (!isStopRequested() && !h.imu.isGyroCalibrated()) {
-            sleep(50);
-            idle();
-        }
+//        while (!isStopRequested() && !h.imu.isGyroCalibrated()) {
+//            sleep(50);
+//            idle();
+//        }
 
-        telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", h.imu.getCalibrationStatus().toString());
-        telemetry.addData("Main Initialization ", "complete");
-        telemetry.update();
+//                telemetry.addData("Mode", "waiting for start");
+//        telemetry.addData("imu calib status", h.imu.getCalibrationStatus().toString());
+//        telemetry.addData("Main Initialization ", "complete");
+//        telemetry.update();
 
 
-        Gamepad gamepad1 = new Gamepad();
-        Gamepad gamepad2 = new Gamepad();
+//        Gamepad gamepad1 = new Gamepad();
+//        Gamepad gamepad2 = new Gamepad();
 
 
         waitForStart();
@@ -96,13 +96,46 @@ public class TeleOp2024 extends LinearOpMode {
             if (tagProcessor.getDetections().size() > 0) {
                 AprilTagDetection tag = tagProcessor.getDetections().get(0);
                 if (gamepad2.a) {
-                    if (tag.ftcPose.yaw > 0) {
-                        h.turnnoIMU(true, 50, .2);
-                    }
-                    if (tag.ftcPose.yaw < 0) {
-                        h.turnnoIMU(false, 50, .2);
+                    if (tag.ftcPose.yaw > 2) {
+                        h.turnnoIMU(true, (int)Math.abs(tag.ftcPose.yaw)*10+20, .1);//20
+                    } else if (tag.ftcPose.yaw < -2) {
+                        h.turnnoIMU(false, (int)Math.abs(tag.ftcPose.yaw)*10+20, .1);
+                    } else if (tag.ftcPose.x < -2) {
+                        h.strafePureEncoder(true, (int)Math.abs(tag.ftcPose.x)*40+20, .2);
+                    } else if (tag.ftcPose.x > 2) {
+                        h.strafePureEncoder(false, (int)Math.abs(tag.ftcPose.x)*40+20, .2);
+                    } else if (tag.ftcPose.y > 2) {
+                        h.drivePureEncoder(false, (int)Math.abs(tag.ftcPose.y)+20, .2);
                     }
                 }
+                telemetry.addData("x", tag.ftcPose.x);
+                telemetry.addData("y", tag.ftcPose.y);
+                telemetry.addData("z", tag.ftcPose.z);
+                telemetry.addData("roll", tag.ftcPose.roll);
+                telemetry.addData("pitch", tag.ftcPose.pitch);
+                telemetry.addData("yaw", tag.ftcPose.yaw);
+                telemetry.addData("tag", tag.id);
+                telemetry.addData("motorfrontleft", h.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("motorfrontright", h.motorFrontRight.getCurrentPosition());
+                telemetry.addData("motorbackleft", h.motorBackLeft.getCurrentPosition());
+                telemetry.addData("motorbackright", h.motorBackRight.getCurrentPosition());
+                telemetry.update();
+            }
+            if(gamepad2.b) {
+                h.motorFrontLeft.setPower(.7);
+                h.motorFrontRight.setPower(1);
+                h.motorBackLeft.setPower(.7);
+                h.motorBackRight.setPower(1);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+            if(gamepad2.right_bumper) {
+                h.motorFrontLeft.setPower(.5);
+                h.motorFrontRight.setPower(-.5);
+                h.motorBackLeft.setPower(-.5);
+                h.motorBackRight.setPower(.5);
             }
 
             //all off the inputs
@@ -113,12 +146,14 @@ public class TeleOp2024 extends LinearOpMode {
             }
             if(gamepad1.x && pressed == false){
                 pressed=true;
-                h.servoClaw.setPosition(.43);//h.servoClaw.getPosition()+.01
+                h.servoClaw.setPosition(h.servoClaw.getPosition()+.1);//.43
             }
             if(gamepad1.y && pressed == false){
                 pressed=true;
-                h.servoClaw.setPosition(.1);//h.servoClaw.getPosition()-.01
+                h.servoClaw.setPosition(h.servoClaw.getPosition()-.1);//.1
             }
+            telemetry.addData("Servo Claw: ", h.servoClaw.getPosition());
+            telemetry.update();
             if(gamepad1.dpad_up && pressed == false){
                 pressed = true;
                 h.servoArm.setPosition(.45);//.45

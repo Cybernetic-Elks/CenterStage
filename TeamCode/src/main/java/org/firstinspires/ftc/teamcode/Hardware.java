@@ -158,7 +158,7 @@ public class Hardware extends LinearOpMode
 
         servoArm = aMap.servo.get("swingArm3");
         servoClaw = aMap.servo.get("outtakeClaw4");
-//        servoClaw.setPosition(0.3);
+        servoClaw.setPosition(0.3);
         servoIntakeLift = aMap.servo.get("intakeLift5");
 //        servoIntakeLift.setPosition(0.5);
 
