@@ -23,26 +23,32 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "2024 TeleOp - CHOOSE THIS ONE", group = "TeleOp")
 /**
- * Date Created:  7/30/2022
- * Purpose: This is going to be our main teleop for PowerPlay
+ * Date Created:  
+ * Purpose: This is going to be our main teleop for CenterStage
  */
 
 public class TeleOp2024 extends LinearOpMode {
     OpMode opmode;
+
+    // booleans for auto lift
     boolean pressed = false;
     boolean moveArmUp = false;
     boolean moveArmDown = false;
+    int liftTarget = -1200;
 
     @Override
     public void runOpMode() {
+        // Initialize hardware class
         Hardware h = new Hardware();
         try {
             h.init(hardwareMap, telemetry);
         } catch (Exception e) {
             telemetry.addData("Init Error:", "Something failed to initialize");
-            telemetry.update();
+            // telemetry.update();
             e.printStackTrace();
         }
+
+        //initialize AprilTag class
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                     .setDrawAxes(true)
                     .setDrawCubeProjection(true)
@@ -83,23 +89,15 @@ public class TeleOp2024 extends LinearOpMode {
         telemetry.update();
 
 
-//        Gamepad gamepad1 = new Gamepad();
-//        Gamepad gamepad2 = new Gamepad();
-
-
         waitForStart();
         while (opModeIsActive()) {
+
+            //Ability to drive
             h.motorFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
             h.motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
             h.motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             h.motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             h.driveOmniDir(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, false, 2, 1);
-
-//            if(h.liftLimit.isPressed() && !moveArmUp && !moveArmDown && !gamepad1.left_bumper){
-//                h.motorLift.setPower(0);
-//                h.motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                telemetry.addLine("here");
-//            }
 
             //AprilTags for goodness
             if (tagProcessor.getDetections().size() > 0) {
@@ -147,22 +145,24 @@ public class TeleOp2024 extends LinearOpMode {
                 h.motorBackRight.setPower(.5);
             }
 
-            //all off the inputs
+            // Manual lift Controls
             if(gamepad1.left_trigger >= 0.05 && !h.liftLimit.isPressed()){
-                h.motorLift.setPower(gamepad1.left_trigger*.75);
+                moveArmUp = false;//override auto lift
+                moveArmDown = false;
+                h.motorLift.setPower(gamepad1.left_trigger*.75); //down
             }if(gamepad1.left_bumper) {
-                h.motorLift.setPower(-.6);
-            }else if(gamepad1.left_trigger < 0.05 && !gamepad1.left_bumper && !moveArmDown && !moveArmUp){
+                moveArmUp = false;//override auto lift
+                moveArmDown = false;
+                h.motorLift.setPower(-.6); //up
+            }else if(gamepad1.left_trigger < 0.05 && !gamepad1.left_bumper && !moveArmDown && !moveArmUp){ //if no auto lift and no manual lift, stop motors
                 h.motorLift.setPower(0);
             }
-            if(gamepad1.x){
-//            if(gamepad1.x && pressed == false){
-//                pressed=true;
-                h.servoClaw.setPosition(0.01);//0
+
+            // Claw controls
+            if(gamepad1.x){ //Grab
+                h.servoClaw.setPosition(0.01);//00.1
             }
-            if(gamepad1.y){
-//            if(gamepad1.y && pressed == false){
-//                pressed=true;
+            if(gamepad1.y){ //Release
                 h.servoClaw.setPosition(.6);//.6
             }
             telemetry.addData("Servo Claw: ", h.servoClaw.getPosition());
@@ -170,51 +170,51 @@ public class TeleOp2024 extends LinearOpMode {
             telemetry.addData("Limit Lift: ", h.liftLimit.isPressed());
             telemetry.addData("Lift Encoder", h.motorLift.getCurrentPosition());
             telemetry.update();
+
+            //Request to move Swing Arm
             if(gamepad1.dpad_up) {
-                moveArmUp = true;
-                moveArmDown = false;
-                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                moveArmUp = true; // Request auto swing up
+                moveArmDown = false; // Override swing down
             }
             if(gamepad1.dpad_down) {
-                moveArmUp = false;
-                moveArmDown = true;
-                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                moveArmUp = false; // Override swing up
+                moveArmDown = true; // swing down
             }
-            if(moveArmUp && !h.liftLimit.isPressed() && h.motorLift.getCurrentPosition() < -1200){
-                moveArmUp = false;
-                h.servoArm.setPosition(.45);//.45
-                h.motorLift.setPower(0);
-                h.motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if(moveArmUp && (h.liftLimit.isPressed() || h.motorLift.getCurrentPosition() > -1200)) {
-                h.motorLift.setTargetPosition(-1200);
-                h.motorLift.setPower(.7);
+
+            // Move swing arm
+            if(moveArmUp){ // If move up requested
+                // Continue to request to move swing arm until the lift is raised to its target or above and the arm has been set to the target position
+                moveArmUp = h.moveArm(0.45, liftTarget, 1.0);
             }
-            if(moveArmDown && !h.liftLimit.isPressed() && h.motorLift.getCurrentPosition() < -1200){
-                moveArmDown = false;
-                h.servoArm.setPosition(.2);//.2
-                h.motorLift.setPower(0);
-                h.motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if(moveArmDown && (h.liftLimit.isPressed() || h.motorLift.getCurrentPosition() > -1200)) {
-                h.motorLift.setTargetPosition(-1200);
-                h.motorLift.setPower(.7);
+            if(moveArmDown){ // If move down requested
+                // Continue to request to move swing arm until the lift is raised to -1200 or above and the arm has been set to the target position
+                moveArmDown = h.moveArm(0.2, -1200, 1.0);
             }
+
+            // Lift the intake controls
             if(gamepad2.dpad_down){
-                h.servoIntakeLift.setPosition(.76);//h.servoIntakeLift.getPosition()-.01
-            }
-            if(!gamepad1.x&&!gamepad1.y &&!gamepad1.dpad_up &&!gamepad1.dpad_down){
-                pressed = false;
+                // Lower intake to flow (1 pixel high)
+                h.servoIntakeLift.setPosition(.76);//.76
             }
             if(gamepad2.dpad_right){
+                // Raise/Lower intake to middle height (3 pixel high)
                 h.servoIntakeLift.setPosition(.72);//.77
             }
+            if(gamepad2.dpad_up){
+                // Raise intake to highest height (5 pixels high)
+                h.servoIntakeLift.setPosition(.67);//.67
+            }
+
+            // Intake controls
             if(gamepad1.right_trigger>.10) {
+                // Intake pixel
                 h.motorIntake.setPower(gamepad1.right_trigger + .3);
-            }
-            if(gamepad1.b) {
-                h.motorIntake.setPower(0);
-            }
-            if(gamepad1.right_bumper) {
+            } else if(gamepad1.right_bumper) {
+                // Reverse intake (outtake)
                 h.motorIntake.setPower(-.7);
+            } else {
+                // Turn intake off when not in use
+                h.motorIntake.setPower(0);
             }
         }
     }

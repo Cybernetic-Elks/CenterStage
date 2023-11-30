@@ -173,6 +173,47 @@ public class Hardware extends LinearOpMode
     }
 
     /**
+     * Resets lift encoder to zero wherever the robot currently is
+     */
+    public void liftEncoderReset() {
+        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    /**
+     * Safety feature for the swing arm.
+     * 
+     * Raises lift to target height if too low, otherwise will swing arm to target position.
+     * 
+     * ex1: while(moveArm(armTarget, liftTarget, speedTarget)){}
+     * ex2: if(moveArm){moveArm = moveArm(armTarget, liftTarget, speedTarget);}
+     * 
+     * @param servoArm double, target position for the swing arm servo
+     * @param liftTarget int, target encoder position for the lift to be physically above and numerically below
+     * @param power double, lift speed
+     * 
+     * @return boolean, whether or not the lift is moving 
+     */
+    public void moveArm(double servoArm, int liftTarget, double power) {
+        boolean moving = true;
+        // Since the lift can only move one direction, we make sure the target is set to that direction
+        if(liftTarget > 0) {
+            liftTarget = -liftTarget;
+        }
+
+        if(!liftLimit.isPressed() && motorLift.getCurrentPosition() < liftTarget){ //if lift is high enough, swing the arm to position
+            servoArm.setPosition(servoArm);//.45
+            motorLift.setPower(0);
+            motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            moving = false;
+        } else if(liftLimit.isPressed() || motorLift.getCurrentPosition() > liftTarget) { // if the lift is not high enough to swing, raise the lift
+            motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLift.setTargetPosition(liftTarget);
+            motorLift.setPower(power);
+        }
+        return moving;
+    }
+
+    /**
      * Drives the robot forward/backwards a set number of inches at a set power.
      *
      * <p>Issues: Recently fixed the inch being innacurate now it is about three inches over every time, need to look into this some.</p>
