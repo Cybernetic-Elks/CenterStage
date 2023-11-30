@@ -45,7 +45,7 @@ public class Hardware extends LinearOpMode
 
     //CRServo servoWrist;
     public Servo servoArm; //In use
-    TouchSensor touch; //In use
+    TouchSensor liftLimit;
     AnalogInput potArm;
 
     ModernRoboticsI2cGyro MRgyro;
@@ -148,7 +148,7 @@ public class Hardware extends LinearOpMode
 
         motorLift = aMap.dcMotor.get("liftDriver0");
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLift.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -158,11 +158,11 @@ public class Hardware extends LinearOpMode
 
         servoArm = aMap.servo.get("swingArm3");
         servoClaw = aMap.servo.get("outtakeClaw4");
-        servoClaw.setPosition(0.3);
+//        servoClaw.setPosition(0.3);
         servoIntakeLift = aMap.servo.get("intakeLift5");
 //        servoIntakeLift.setPosition(0.5);
 
-//        potArm = aMap.analogInput.get("armPot01");
+        liftLimit = aMap.touchSensor.get("limit01");
 
 
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
