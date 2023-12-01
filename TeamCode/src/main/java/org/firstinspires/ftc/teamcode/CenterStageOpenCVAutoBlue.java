@@ -65,8 +65,8 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        h.imu = hardwareMap.get(BNO055IMU.class, "imu");
-        h.imu.initialize(parameters);
+//        h.imu = hardwareMap.get(BNO055IMU.class, "imu");
+//        h.imu.initialize(parameters);
 
 //        telemetry.addData("Mode", "calibrating...");
 //        telemetry.update();
@@ -74,13 +74,13 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
 //        // make sure the imu gyro is calibrated before continuing.
 //        while (!isStopRequested() && !h.imu.isGyroCalibrated())
 //        {
-            sleep(50);
+//            sleep(50);
 //            idle();
 //        }
 
-        telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", h.imu.getCalibrationStatus().toString());
-        telemetry.update();
+//        telemetry.addData("Mode", "waiting for start");
+//        telemetry.addData("imu calib status", h.imu.getCalibrationStatus().toString());
+//        telemetry.update();
 
         //h.servoIntake.setPosition(1);
 

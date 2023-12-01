@@ -193,7 +193,7 @@ public class Hardware extends LinearOpMode
      * 
      * @return boolean, whether or not the lift is moving 
      */
-    public void moveArm(double servoArm, int liftTarget, double power) {
+    public boolean moveArm(double armPosition, int liftTarget, double power) {
         boolean moving = true;
         // Since the lift can only move one direction, we make sure the target is set to that direction
         if(liftTarget > 0) {
@@ -201,7 +201,7 @@ public class Hardware extends LinearOpMode
         }
 
         if(!liftLimit.isPressed() && motorLift.getCurrentPosition() < liftTarget){ //if lift is high enough, swing the arm to position
-            servoArm.setPosition(servoArm);//.45
+            servoArm.setPosition(armPosition);//.45
             motorLift.setPower(0);
             motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             moving = false;
@@ -1087,66 +1087,67 @@ public class Hardware extends LinearOpMode
         motorBackRight.setPower(motorPower);
     }
 
-    public void turnnoIMU(boolean left, int distanceEncodeVal, double power)
-    {motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    public void turnnoIMU(boolean left,  double power)
+    {
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        driveTime = distanceEncodeVal;
+//        driveTime = distanceEncodeVal;
 
-
-        if(left)
-        {
-            motorFrontLeft.setTargetPosition(-distanceEncodeVal);
-            motorFrontRight.setTargetPosition(distanceEncodeVal);
-            motorBackLeft.setTargetPosition(-distanceEncodeVal);
-            motorBackRight.setTargetPosition(distanceEncodeVal);
-        }
-        else
-        {
-            motorFrontLeft.setTargetPosition(distanceEncodeVal);
-            motorFrontRight.setTargetPosition(-distanceEncodeVal);
-            motorBackLeft.setTargetPosition(distanceEncodeVal);
-            motorBackRight.setTargetPosition(-distanceEncodeVal);
-        }
-
-        motorFrontLeft.setPower(power);
-        motorFrontRight.setPower(power);
-        motorBackLeft.setPower(power);
-        motorBackRight.setPower(power);
-
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if(left)
         {
-            while (motorFrontRight.getCurrentPosition() < distanceEncodeVal - 20 && !isStopRequested())
-            {
-
-            }
+            motorFrontLeft.setPower(-power);
+            motorFrontRight.setPower(power);
+            motorBackLeft.setPower(-power);
+            motorBackRight.setPower(power);
         }
         else
         {
-
-            while (motorFrontRight.getCurrentPosition() > -distanceEncodeVal + 20 && !isStopRequested())
-            {
-
-            }
-
+            motorFrontLeft.setPower(power);
+            motorFrontRight.setPower(-power);
+            motorBackLeft.setPower(power);
+            motorBackRight.setPower(-power);
         }
 
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorFrontLeft.setPower(power);
+//        motorFrontRight.setPower(power);
+//        motorBackLeft.setPower(power);
+//        motorBackRight.setPower(power);
 
-        motorFrontLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
+//        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+//        if(left)
+//        {
+//            while (motorFrontRight.getCurrentPosition() < distanceEncodeVal - 20 && !isStopRequested())
+//            {
+//
+//            }
+//        }
+//        else
+//        {
+//
+//            while (motorFrontRight.getCurrentPosition() > -distanceEncodeVal + 20 && !isStopRequested())
+//            {
+//
+//            }
+//
+//        }
+
+//        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+//        motorFrontLeft.setPower(0);
+//        motorFrontRight.setPower(0);
+//        motorBackLeft.setPower(0);
+//        motorBackRight.setPower(0);
 
     }
     /**
