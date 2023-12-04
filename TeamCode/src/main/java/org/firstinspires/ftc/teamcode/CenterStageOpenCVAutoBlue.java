@@ -139,7 +139,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 h.sleep(2000);
-                h.motorIntake.setPower(-.8);
+                h.motorIntake.setPower(.8);
                 h.sleep(2500);
                 h.motorIntake.setPower(0);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -175,7 +175,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorLift.setPower((float) .2);
                 while (h.motorLift.getCurrentPosition() > -1485 + 20 && !isStopRequested()){}
-                h.sleep(2000);
+                h.sleep(1000);
                 h.servoArm.setPosition(.45);
                 h.drivePureEncoder(false, 1315, .2); 
                 h.sleep(500);
@@ -208,6 +208,9 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
+                h.sleep(250);
+                h.servoArm.setPosition(0.22);
+                h.motorLift.setTargetPosition(-30);
                 break;
             case MIDDLE:
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -240,7 +243,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 sleep(500);
                 h.drivePureEncoder(false, 400, .2);
                 h.sleep(1000);
-                h.motorIntake.setPower(-.6);
+                h.motorIntake.setPower(.6);
                 h.sleep(2500);
                 h.motorIntake.setPower(0);
                 h.sleep(1000);
@@ -308,6 +311,9 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
+                h.sleep(250);
+                h.servoArm.setPosition(0.22);
+                h.motorLift.setTargetPosition(-30);
                 break;
             case RIGHT:
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -371,7 +377,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.drivePureEncoder(false, 180, .2);
 
                 h.sleep(2000);
-                h.motorIntake.setPower(-.7);
+                h.motorIntake.setPower(.7);
                 h.sleep(2000);
                 h.motorIntake.setPower(0);
                 h.sleep(2000);
@@ -391,6 +397,9 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
+                h.sleep(250);
+                h.servoArm.setPosition(0.22);
+                h.motorLift.setTargetPosition(-30);
                 break;
         }
     }

@@ -115,7 +115,7 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.servoIntakeLift.setPosition(.76);
                 h.driveDiagonal(true, 1500, .2);
                 h.sleep(2500);
-                h.motorIntake.setPower(-.8);
+                h.motorIntake.setPower(.8);
                 h.sleep(2500);
                 h.motorIntake.setPower(0);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -183,6 +183,9 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
+                h.sleep(250);
+                h.servoArm.setPosition(0.22);
+                h.motorLift.setTargetPosition(-30);
                 break;
             case MIDDLE:
                 h.driveDiagonal(true, 300, .2);
@@ -191,7 +194,7 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 sleep(500);
                 h.drivePureEncoder(false, 400, .2);
                 h.sleep(1000);
-                h.motorIntake.setPower(-.5);
+                h.motorIntake.setPower(.5);
                 h.sleep(2500);
                 h.motorIntake.setPower(0);
                 h.sleep(1000);
@@ -259,6 +262,9 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
+                h.sleep(250);
+                h.servoArm.setPosition(0.22);
+                h.motorLift.setTargetPosition(-30);
                 break;
             case LEFT:
                 h.driveDiagonal(true, 500, .2);
@@ -318,6 +324,9 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
+                h.sleep(250);
+                h.servoArm.setPosition(0.22);
+                h.motorLift.setTargetPosition(-30);
                 break;
         }
     }
