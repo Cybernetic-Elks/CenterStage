@@ -48,16 +48,16 @@ public class TeleOp2024 extends LinearOpMode {
         telemetry.addData("outtake encoder value: ", h.servoClaw.getPosition());
         //initialize AprilTag class
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
-                    .setDrawAxes(true)
-                    .setDrawCubeProjection(true)
-                    .setDrawTagID(true)
-                    .setDrawTagOutline(true)
-                    .build();
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                .build();
 
         VisionPortal visionPortal = new VisionPortal.Builder()
-                    .addProcessor(tagProcessor)
-                    .setCamera(hardwareMap.get(WebcamName.class, "outtakeWebcam"))
-                    .build();
+                .addProcessor(tagProcessor)
+                .setCamera(hardwareMap.get(WebcamName.class, "outtakeWebcam"))
+                .build();
 
         // IMU not working yet, saving this for later
 //        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -188,7 +188,6 @@ public class TeleOp2024 extends LinearOpMode {
                 moveArmUp = h.moveArm(armBackdropRows[rowTarget], liftBackdropRows[rowTarget], 1.0,extensionBackdropRows[rowTarget]);//.45
             }
             if(moveArmDown){ // If move down requested
-                outtakePressed = false;
                 // Continue to request to move swing arm until the lift is raised to -1200 or above and the arm has been set to the target position
                 moveArmDown = h.moveArm(0.105, liftBackdropRows[rowTarget], 1.0,.0495);
             }
@@ -209,15 +208,15 @@ public class TeleOp2024 extends LinearOpMode {
 
             // Intake controls
             if(gamepad1.right_trigger>.10) {
-                // Intake pixel
-                h.servoClaw.setPosition(.1);
+                // Reverse intake (outtake)
                 h.motorIntake.setPower(gamepad1.right_trigger + .3);
             } else if(gamepad1.right_bumper) {
-                // Reverse intake (outtake)
+                // intake controls
+                h.servoClaw.setPosition(.1);
                 h.motorIntake.setPower(-1);
-                } else {
-                    h.motorIntake.setPower(0);
-                }
+            } else {
+                h.motorIntake.setPower(0);
+            }
 
             // Drone launching
             if(gamepad2.a) {
@@ -237,15 +236,20 @@ public class TeleOp2024 extends LinearOpMode {
 //                h.servoClaw.setPosition(.225);
 //            }
 
-            if(gamepad1.x) {
+            if(gamepad1.x&&!outtakePressed) {
+                if(h.servoClaw.getPosition()>.23){
+                    h.servoClaw.setPosition(.225);
+                }
+                else if (h.servoClaw.getPosition()>.11 && h.servoClaw.getPosition()<.23) {
+                    h.servoClaw.setPosition(.1);
+                } else {
+                    h.servoClaw.setPosition(.225);
+                }
+                outtakePressed = true;
 
-                    if (outtakePressed) {
-                        h.servoClaw.setPosition(.225);
-                        outtakePressed = false;
-                    } else {
-                        h.servoClaw.setPosition(.1);
-                        outtakePressed = true;
-                    }
+            }
+            if (!gamepad1.x){
+                outtakePressed = false;
 
             }
             if(gamepad1.a) {

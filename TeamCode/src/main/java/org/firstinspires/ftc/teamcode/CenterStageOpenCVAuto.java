@@ -73,7 +73,7 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
 //        // make sure the imu gyro is calibrated before continuing.
 //        while (!isStopRequested() && !h.imu.isGyroCalibrated())
 //        {
-            sleep(50);
+        sleep(50);
 //            idle();
 //        }
 
@@ -358,7 +358,6 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 h.drivePureEncoder(true, 180, .2);
                 h.drivePureEncoder(false, 180, .2);
@@ -399,9 +398,11 @@ public class CenterStageOpenCVAuto extends LinearOpMode {
                 h.servoArm.setPosition(.3);
                 h.servoExtension.setPosition(.47);
                 sleep(1750);
-                while(!h.liftLimit.isPressed()){
-                    h.motorLift.setTargetPosition(-30);
-                    h.motorLift.setPower(.15);
+                while(h.moveArm(.1,-2900,1,.27)) {
+                    while (!h.liftLimit.isPressed()) {
+                        h.motorLift.setTargetPosition(-30);
+                        h.motorLift.setPower(.15);
+                    }
                 }
                 h.motorLift.setPower(0);
                 break;
