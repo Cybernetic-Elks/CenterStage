@@ -46,6 +46,7 @@ public class DemoMode extends LinearOpMode
         double wristPos = .5;
         boolean dpadDown = false, dpadUpPressed = false, dpadDownPressed = false;
         double winchPow = .5;
+        h.servoExtension.setPosition(.30);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -110,6 +111,7 @@ public class DemoMode extends LinearOpMode
             telemetry.addData("outtake encoder value: ", h.servoClaw.getPosition());
             telemetry.addData("intake encoder value: ", h.servoIntakeLift.getPosition());
             telemetry.addData("Limit Lift: ", h.liftLimit.isPressed());
+            telemetry.addData("arm extension: ", h.servoExtension.getPosition());
             telemetry.update();
 
 //
@@ -147,7 +149,16 @@ public class DemoMode extends LinearOpMode
                 pressed = true;
                 h.servoIntakeLift.setPosition(h.servoIntakeLift.getPosition()-.01);//h.servoIntakeLift.getPosition()-.01
             }
-            if(!gamepad1.x&&!gamepad1.y &&!gamepad1.dpad_up &&!gamepad1.dpad_down&&!gamepad2.dpad_up&&!gamepad2.dpad_down){
+
+            if(gamepad2.a && pressed == false) {
+                pressed = true;
+                h.servoExtension.setPosition(h.servoExtension.getPosition()+.01);
+            }
+            if(gamepad2.b && pressed == false) {
+                pressed = true;
+                h.servoExtension.setPosition(h.servoExtension.getPosition()-.01);
+            }
+            if(!gamepad1.x&&!gamepad1.y &&!gamepad1.dpad_up &&!gamepad1.dpad_down&&!gamepad2.dpad_up&&!gamepad2.dpad_down&&!gamepad2.dpad_left&&!gamepad2.b&&!gamepad2.a){
                 pressed = false;
             }
 //            if(h.servoIntakeLift>0)
@@ -166,6 +177,18 @@ public class DemoMode extends LinearOpMode
             if(gamepad1.right_bumper) {
                 h.motorIntake.setPower(-.7);
             }
+            if(gamepad1.a) {
+                h.servoDrone.setPosition(0);
+            } else {
+                h.servoDrone.setPosition(1);
+            }
+
+
+//            if(gamepad1.a) {
+//                h.servoDrone.setPosition(0);
+//            } else {
+//                h.servoDrone.setPosition(1);
+//            }
 
             /** Toggle code for opening and closing the claw, if you press x it will alternate between being closed and opened enough for one block
              *  If you press y it will open fully we rarely open it fully as it adds risk that we may grab two blocks

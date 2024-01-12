@@ -44,7 +44,9 @@ public class Hardware extends LinearOpMode
 
 
     //CRServo servoWrist;
+    public Servo servoExtension;
     public Servo servoArm; //In use
+    public Servo servoDrone;
     TouchSensor liftLimit;
     AnalogInput potArm;
 
@@ -161,6 +163,8 @@ public class Hardware extends LinearOpMode
 //        servoClaw.setPosition(0.3);
         servoIntakeLift = aMap.servo.get("intakeLift5");
 //        servoIntakeLift.setPosition(0.5);
+        servoDrone = aMap.servo.get("servoDrone1");
+        servoExtension = aMap.servo.get("armExtension0");
 
         liftLimit = aMap.touchSensor.get("limit01");
 
@@ -187,13 +191,13 @@ public class Hardware extends LinearOpMode
      * ex1: while(moveArm(armTarget, liftTarget, speedTarget)){}
      * ex2: if(moveArm){moveArm = moveArm(armTarget, liftTarget, speedTarget);}
      * 
-     * @param servoArm double, target position for the swing arm servo
+     * @param armPosition double, target position for the swing arm servo
      * @param liftTarget int, target encoder position for the lift to be physically above and numerically below
      * @param power double, lift speed
      * 
      * @return boolean, whether or not the lift is moving 
      */
-    public boolean moveArm(double armPosition, int liftTarget, double power) {
+    public boolean moveArm(double armPosition, int liftTarget, double power, double extensionPosition){
         boolean moving = true;
         // Since the lift can only move one direction, we make sure the target is set to that direction
         if(liftTarget > 0) {
@@ -201,7 +205,8 @@ public class Hardware extends LinearOpMode
         }
 
         if(!liftLimit.isPressed() && motorLift.getCurrentPosition() < liftTarget){ //if lift is high enough, swing the arm to position
-            servoArm.setPosition(armPosition);//.45
+            servoArm.setPosition(armPosition);
+            servoExtension.setPosition(extensionPosition);
             motorLift.setPower(0);
             motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             moving = false;

@@ -27,11 +27,11 @@ public class PropDetectorBlue extends OpenCvPipeline {
     private Location location;
 
     static final Rect LEFT_ROI = new Rect(
-            new Point(1, 70),
-            new Point(61, 120));
+            new Point(1, 160),
+            new Point(61, 210));
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(175, 80),
-            new Point(245, 130));
+            new Point(190, 130),
+            new Point(260, 180));
     static double PERCENT_COLOR_THRESHOLD = 0.1;
 
     public PropDetectorBlue(Telemetry t) { telemetry = t; }
@@ -39,8 +39,8 @@ public class PropDetectorBlue extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar lowHSV = new Scalar(115, 40, 40);
-        Scalar highHSV = new Scalar(125, 255, 255);
+        Scalar lowHSV = new Scalar(117.5, 40, 40);
+        Scalar highHSV = new Scalar(122.5, 255, 255);
 
         Core.inRange(mat, lowHSV, highHSV, mat);
 

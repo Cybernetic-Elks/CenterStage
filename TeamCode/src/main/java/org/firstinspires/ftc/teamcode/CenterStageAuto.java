@@ -12,8 +12,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 //@Disabled
-@Autonomous(name="Center Stage auto Blue", group="Auto")
-public class CenterStageOpenCVAutoBlue extends LinearOpMode {
+@Autonomous(name="Center Stage Auto 1+1", group="Auto")
+public class CenterStageAuto extends LinearOpMode {
     Hardware h = new Hardware();
     OpenCvCamera webCam;
     int driveDiagonal;
@@ -29,7 +29,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "intakeWebcam"), cameraMonitorViewId);
-        PropDetectorBlue detector = new PropDetectorBlue(telemetry);
+        PropDetector detector = new PropDetector(telemetry);
         webCam.setPipeline(detector);
         webCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -56,15 +56,15 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
         h.motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
-
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
+//
+//        parameters.mode                = BNO055IMU.SensorMode.IMU;
+//        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+//        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+//        parameters.loggingEnabled      = false;
+//
+//        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+//        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+//        // and named "imu".
 //        h.imu = hardwareMap.get(BNO055IMU.class, "imu");
 //        h.imu.initialize(parameters);
 
@@ -74,7 +74,7 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
 //        // make sure the imu gyro is calibrated before continuing.
 //        while (!isStopRequested() && !h.imu.isGyroCalibrated())
 //        {
-//            sleep(50);
+            sleep(50);
 //            idle();
 //        }
 
@@ -112,44 +112,20 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
         h.servoIntakeLift.setPosition(.76);
 
         switch (position) {
-            case LEFT:
-                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                h.motorFrontLeft.setTargetPosition(0);
-                h.motorFrontRight.setTargetPosition(1500);
-                h.motorBackLeft.setTargetPosition(1500);
-                h.motorBackRight.setTargetPosition(0);
-
-                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                h.motorFrontLeft.setPower((float) .2);
-                h.motorFrontRight.setPower((float) .2);
-                h.motorBackLeft.setPower((float) .2);
-                h.motorBackRight.setPower((float) .2);
-                while (h.motorFrontRight.getCurrentPosition() < 1500 - 20 && h.motorBackLeft.getCurrentPosition() < 1500 - 20) {}
-                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                h.sleep(2000);
-                h.motorIntake.setPower(.4);
-                h.sleep(1500);
+            case RIGHT:
+                h.driveDiagonal(true, 1500, .4);
+                h.sleep(250);
+                h.motorIntake.setPower(.6);
+                h.sleep(750);
                 h.motorIntake.setPower(0);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(975);
-                h.motorFrontRight.setTargetPosition(-975);
-                h.motorBackLeft.setTargetPosition(975);
+                h.motorFrontLeft.setTargetPosition(-975);
+                h.motorFrontRight.setTargetPosition(0);
+                h.motorBackLeft.setTargetPosition(0);
                 h.motorBackRight.setTargetPosition(-975);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -161,73 +137,19 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorBackRight.getCurrentPosition() > -975 + 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() < 975 - 20
-                        && h.motorFrontRight.getCurrentPosition() > -975 + 20 && h.motorBackLeft.getCurrentPosition() < 975 - 20) {
+                while (h.motorFrontLeft.getCurrentPosition() > -1000 + 20 && h.motorBackRight.getCurrentPosition() > -1000 + 20) {
 
                 }
-                h.sleep(500);
-                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorLift.setTargetPosition(-1485);//-145
-                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorLift.setPower((float) .2);
-                while (h.motorLift.getCurrentPosition() > -1485 + 20 && !isStopRequested()){}
-                h.sleep(500);
-                h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1315, .2);
+                sleep(250);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(-300);
-                h.motorFrontRight.setTargetPosition(300);
-                h.motorBackLeft.setTargetPosition(300);
-                h.motorBackRight.setTargetPosition(-300);
-
-                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                h.motorFrontLeft.setPower((float) .15);
-                h.motorFrontRight.setPower((float) .15);
-                h.motorBackLeft.setPower((float) .15);
-                h.motorBackRight.setPower((float) .15);
-                while (h.motorFrontRight.getCurrentPosition() < 300 - 20 && h.motorBackLeft.getCurrentPosition() < 300 - 20 &&
-                        h.motorFrontLeft.getCurrentPosition() > -300 + 20 && h.motorBackRight.getCurrentPosition() > -300 + 20) {}
-                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.sleep(1050);
-                h.drivePureEncoder(false, 100, .2);
-                h.sleep(250);
-                h.servoClaw.setPosition(.43);
-                h.sleep(1000);
-                h.drivePureEncoder(true, 100, .2);
-                h.sleep(500);
-                while(h.moveArm(0.21,-1300, 1, 0.24)){}
-                sleep(1750);
-                while(!h.liftLimit.isPressed()){
-                    h.motorLift.setTargetPosition(-30);
-                    h.motorLift.setPower(.15);
-                }
-                h.motorLift.setPower(0);
-                break;
-            case MIDDLE:
-                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                h.motorFrontLeft.setTargetPosition(0);
-                h.motorFrontRight.setTargetPosition(300);
-                h.motorBackLeft.setTargetPosition(300);
-                h.motorBackRight.setTargetPosition(0);
+                h.motorFrontLeft.setTargetPosition(-975);
+                h.motorFrontRight.setTargetPosition(975);
+                h.motorBackLeft.setTargetPosition(-975);
+                h.motorBackRight.setTargetPosition(975);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -238,12 +160,70 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorFrontRight.getCurrentPosition() < 300 - 20 && h.motorBackLeft.getCurrentPosition() < 300 - 20) {}
+                while (h.motorBackRight.getCurrentPosition() < 975 - 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() > -975 + 20
+                        && h.motorFrontRight.getCurrentPosition() < 975 - 20 && h.motorBackLeft.getCurrentPosition() > -975 + 20) {
+
+                }
+                h.sleep(250);
+                h.motorLift.setTargetPosition(-475);
+                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorLift.setPower((float) .2);
+                while (h.motorLift.getCurrentPosition() > -475 + 20 && !isStopRequested()){}
+                h.drivePureEncoder(true,1225,.4);
+                h.sleep(50);
+                h.motorIntake.setPower(-.9);
+                h.sleep(500);
+                h.drivePureEncoder(false,600,.4);
+                h.sleep(1);
+                h.drivePureEncoder(false,2000,.4);
+                h.motorLift.setTargetPosition(-1485);//-145
+                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorLift.setPower((float) .2);
+                while (h.motorLift.getCurrentPosition() > -1485 + 20 && !isStopRequested()){}
+                h.sleep(500);
+                h.motorIntake.setPower(0);
+                h.servoArm.setPosition(.45);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                h.motorFrontLeft.setTargetPosition(800);
+                h.motorFrontRight.setTargetPosition(-800);
+                h.motorBackLeft.setTargetPosition(-800);
+                h.motorBackRight.setTargetPosition(800);
+
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                h.motorFrontLeft.setPower((float) .15);
+                h.motorFrontRight.setPower((float) .15);
+                h.motorBackLeft.setPower((float) .15);
+                h.motorBackRight.setPower((float) .15);
+                while (h.motorFrontRight.getCurrentPosition() > -800 + 20 && h.motorBackLeft.getCurrentPosition() > -800 + 20) {}
+                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.sleep(1250);
+                h.drivePureEncoder(false, 650, .2);
+                h.sleep(50);
+                h.servoClaw.setPosition(.43);
+                h.sleep(1000);
+                h.drivePureEncoder(true, 100, .2);
+                h.sleep(1);
+                while(h.moveArm(0.21,-1300, 1, 0.24)){}
+                sleep(1750);
+                while(!h.liftLimit.isPressed()){
+                    h.motorLift.setTargetPosition(-30);
+                    h.motorLift.setPower(.3);
+                }
+                h.motorLift.setPower(0);
+                break;
+            case MIDDLE:
+                h.driveDiagonal(true, 300, .2);
                 h.sleep(500);
                 h.drivePureEncoder(true, 1200, .2);
                 sleep(500);
@@ -258,10 +238,10 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(1000);
-                h.motorFrontRight.setTargetPosition(-1000);
-                h.motorBackLeft.setTargetPosition(1000);
-                h.motorBackRight.setTargetPosition(-1000);
+                h.motorFrontLeft.setTargetPosition(-700);
+                h.motorFrontRight.setTargetPosition(700);
+                h.motorBackLeft.setTargetPosition(-700);
+                h.motorBackRight.setTargetPosition(700);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -272,8 +252,8 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorBackLeft.getCurrentPosition() < 1000 - 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() < 1000 - 20
-                        && h.motorFrontRight.getCurrentPosition() > -1000 + 20 && h.motorBackRight.getCurrentPosition() > -1000 + 20) {
+                while (h.motorBackRight.getCurrentPosition() < 700 - 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() > -700 + 20
+                        && h.motorFrontRight.getCurrentPosition() < 700 - 20 && h.motorBackLeft.getCurrentPosition() > -700 + 20) {
 
                 }
                 h.motorLift.setTargetPosition(-1350);
@@ -286,17 +266,17 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.servoArm.setPosition(.45);
-                h.drivePureEncoder(false, 1940, .2);
+                h.drivePureEncoder(false, 1940, .2); // Josiah changed from 1625 to 1940
                 h.sleep(500);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(-100);
-                h.motorFrontRight.setTargetPosition(100);
-                h.motorBackLeft.setTargetPosition(100);
-                h.motorBackRight.setTargetPosition(-100);
+                h.motorFrontLeft.setTargetPosition(300);
+                h.motorFrontRight.setTargetPosition(-300);
+                h.motorBackLeft.setTargetPosition(-300);
+                h.motorBackRight.setTargetPosition(300);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -307,8 +287,8 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorFrontRight.getCurrentPosition() < 100 - 20 && h.motorBackLeft.getCurrentPosition() < 100 - 20 &&
-                        h.motorFrontLeft.getCurrentPosition() > -100 + 20 && h.motorBackRight.getCurrentPosition() > -100 + 20) {}
+                while (h.motorFrontRight.getCurrentPosition() > -300 + 20 && h.motorBackLeft.getCurrentPosition() > -300 + 20 &&
+                        h.motorFrontLeft.getCurrentPosition() < 300 - 20 && h.motorBackRight.getCurrentPosition() < 300 - 20) {}
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -317,8 +297,8 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.servoClaw.setPosition(.43);
                 h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
-                h.sleep(500);
-                while(h.moveArm(0.21,-1300, 1, 0.24)){}
+                h.sleep(1);
+                while(h.moveArm(0.21,-1300, 1, .24)){}
                 sleep(1750);
                 while(!h.liftLimit.isPressed()){
                     h.motorLift.setTargetPosition(-30);
@@ -326,16 +306,20 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 }
                 h.motorLift.setPower(0);
                 break;
-            case RIGHT:
+            case LEFT:
+                h.driveDiagonal(true, 500, .2);
+                h.sleep(25);
+                h.drivePureEncoder(true, 1250, .2);
+                h.sleep(250);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.motorFrontLeft.setTargetPosition(0);
-                h.motorFrontRight.setTargetPosition(500);
-                h.motorBackLeft.setTargetPosition(500);
-                h.motorBackRight.setTargetPosition(0);;
+                h.motorFrontLeft.setTargetPosition(-1020);
+                h.motorFrontRight.setTargetPosition(1020);
+                h.motorBackLeft.setTargetPosition(-1020);
+                h.motorBackRight.setTargetPosition(1020);
 
                 h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -346,15 +330,28 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorFrontRight.getCurrentPosition() < 500 - 20 && h.motorBackLeft.getCurrentPosition() < 500 - 20) {}
+                while (h.motorBackRight.getCurrentPosition() < 1020 - 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() > -1020 + 20
+                        && h.motorFrontRight.getCurrentPosition() < 1020 - 20 && h.motorBackLeft.getCurrentPosition() > -1020 + 20) {
+
+                }
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                h.drivePureEncoder(true, 180, .2);
+                h.drivePureEncoder(false, 180, .2);
+
+                h.sleep(250);
+                h.motorLift.setTargetPosition(-475);
+                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorLift.setPower((float) .2);
+                h.motorIntake.setPower(.4);
+                h.sleep(750);
+                h.motorIntake.setPower(0);
+                while (h.motorLift.getCurrentPosition() > -475 + 20 && !isStopRequested()){}
                 h.sleep(500);
-                h.drivePureEncoder(true, 1250, .2);
-                h.sleep(1000);
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -374,8 +371,8 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorFrontRight.setPower((float) .2);
                 h.motorBackLeft.setPower((float) .2);
                 h.motorBackRight.setPower((float) .2);
-                while (h.motorBackRight.getCurrentPosition() > -1020 + 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() < 1020 - 20
-                        && h.motorFrontRight.getCurrentPosition() > -1020 + 20 && h.motorBackLeft.getCurrentPosition() < 1020 - 20) {
+                while (h.motorBackRight.getCurrentPosition() < 1020 - 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() > -1020 + 20
+                        && h.motorFrontRight.getCurrentPosition() < 1020 - 20 && h.motorBackLeft.getCurrentPosition() > -1020 + 20) {
 
                 }
                 h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -383,25 +380,46 @@ public class CenterStageOpenCVAutoBlue extends LinearOpMode {
                 h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.drivePureEncoder(false, 1250, .2);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                h.drivePureEncoder(true, 180, .2);
-                h.drivePureEncoder(false, 180, .2);
+                h.motorFrontLeft.setTargetPosition(-1020);
+                h.motorFrontRight.setTargetPosition(1020);
+                h.motorBackLeft.setTargetPosition(-1020);
+                h.motorBackRight.setTargetPosition(1020);
 
-                h.sleep(750);
-                h.motorIntake.setPower(.4);
-                h.sleep(1250);
-                h.motorIntake.setPower(0);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                h.motorFrontLeft.setPower((float) .2);
+                h.motorFrontRight.setPower((float) .2);
+                h.motorBackLeft.setPower((float) .2);
+                h.motorBackRight.setPower((float) .2);
+                while (h.motorBackRight.getCurrentPosition() < 1020 - 20 && !isStopRequested() && h.motorFrontLeft.getCurrentPosition() > -1020 + 20
+                        && h.motorFrontRight.getCurrentPosition() < 1020 - 20 && h.motorBackLeft.getCurrentPosition() > -1020 + 20) {
+
+                }
+                h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                h.motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 h.sleep(1);
-                h.motorLift.setTargetPosition(-1350);//-145
-                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                h.motorLift.setPower((float) .2);
-                while (h.motorLift.getCurrentPosition() > -1350 + 20 && !isStopRequested()){}
-                h.sleep(500);
-                h.servoArm.setPosition(.45);
+                h.drivePureEncoder(true, 1250, .2);
+                h.sleep(1);
+                h.drivePureEncoder(false, 1250, .2);
                 h.drivePureEncoder(false, 1840, .2);
+                h.motorLift.setTargetPosition(-1350);
+                sleep(500);
+                h.servoArm.setPosition(.45);
                 h.sleep(500);
                 h.servoClaw.setPosition(.43);
-                h.sleep(250);
+                h.sleep(500);
                 h.drivePureEncoder(true, 100, .2);
                 h.sleep(500);
                 while(h.moveArm(0.21,-1300, 1, 0.24)){}

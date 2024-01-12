@@ -1,25 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "2024 TeleOp - CHOOSE THIS ONE", group = "TeleOp")
 /**
@@ -34,13 +23,19 @@ public class TeleOp2024 extends LinearOpMode {
     boolean pressed = false;
     boolean moveArmUp = false;
     boolean moveArmDown = false;
-    int liftTarget = -1300;
-    int backdropRows[] = new int[]{-1034, -1492, -2061};
+
+    int liftBackdropRows[] = new int[]{-2900, -3350, -3805, -4000};
+    double extensionBackdropRows[] = new double[]{.47, .65, .66, .67};
+    double armBackdropRows[] = new double[]{.3, .31, .321, .322};
+    int rowTarget = 1;
     double backdropColumns[] = new double[]{2.5,1.5,0,-1.5,2.5,1.5,0,-1.5,-2.5,1.5,0,-1.5,-2.5};
     double backdropTags[] = new double[]{1,1,1,1,2,2,2,2,2,3,3,3,3};
+//    int backdropRow1[] = new int[]{0,1,2,3,4};
 
     @Override
     public void runOpMode() {
+        boolean heightInc = false;
+        boolean outtakePressed = false;
         // Initialize hardware class
         Hardware h = new Hardware();
         try {
@@ -50,7 +45,7 @@ public class TeleOp2024 extends LinearOpMode {
             // telemetry.update();
             e.printStackTrace();
         }
-
+        telemetry.addData("outtake encoder value: ", h.servoClaw.getPosition());
         //initialize AprilTag class
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                     .setDrawAxes(true)
@@ -103,42 +98,7 @@ public class TeleOp2024 extends LinearOpMode {
             h.driveOmniDir(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, false, 2, 1);
 
             //AprilTags for goodness
-            if (tagProcessor.getDetections().size() > 0) {
-                AprilTagDetection tag = tagProcessor.getDetections().get(0);
-                if (gamepad2.a) {
-                    if (tag.ftcPose.yaw > 1.5) {
-                        h.turnnoIMU(true,  Math.abs(tag.ftcPose.yaw/11));//20
-                    } else if (tag.ftcPose.yaw < -1.5) {
-                        h.turnnoIMU(false, Math.abs(tag.ftcPose.yaw/11));
-                    } else if (tag.ftcPose.x < -3) {
-                        h.motorFrontLeft.setPower(Math.abs(tag.ftcPose.x/11));
-                        h.motorBackLeft.setPower(-Math.abs(tag.ftcPose.x/11));
-                        h.motorFrontRight.setPower(-Math.abs(tag.ftcPose.x/11));
-                        h.motorBackRight.setPower(Math.abs(tag.ftcPose.x/11));
-//                        h.strafePureEncoder(true, (int)Math.abs(tag.ftcPose.x)*40+20, .2);
-                    } else if (tag.ftcPose.x > 3) {
-//                        h.strafePureEncoder(false, (int)Math.abs(tag.ftcPose.x)*40+20, .2);
-                        h.motorFrontLeft.setPower(-Math.abs(tag.ftcPose.x/11));
-                        h.motorBackLeft.setPower(Math.abs(tag.ftcPose.x/11));
-                        h.motorFrontRight.setPower(Math.abs(tag.ftcPose.x/11));
-                        h.motorBackRight.setPower(-Math.abs(tag.ftcPose.x/11));
-                    } else if (tag.ftcPose.y > 2) {
-                        h.setDrivePower((float)-Math.abs(.25));
-                    }
-                }
-                telemetry.addData("x", tag.ftcPose.x);
-                telemetry.addData("y", tag.ftcPose.y);
-                telemetry.addData("z", tag.ftcPose.z);
-                telemetry.addData("roll", tag.ftcPose.roll);
-                telemetry.addData("pitch", tag.ftcPose.pitch);
-                telemetry.addData("yaw", tag.ftcPose.yaw);
-                telemetry.addData("tag", tag.id);
-                telemetry.addData("motorfrontleft", h.motorFrontLeft.getCurrentPosition());
-                telemetry.addData("motorfrontright", h.motorFrontRight.getCurrentPosition());
-                telemetry.addData("motorbackleft", h.motorBackLeft.getCurrentPosition());
-                telemetry.addData("motorbackright", h.motorBackRight.getCurrentPosition());
-                telemetry.update();
-            }
+//
 //            if(gamepad2.b) {
 //                h.motorFrontLeft.setPower(.7);
 //                h.motorFrontRight.setPower(1);
@@ -157,24 +117,50 @@ public class TeleOp2024 extends LinearOpMode {
 //            }
 
             // Manual lift Controls
-            if(gamepad1.left_trigger >= 0.05 && !h.liftLimit.isPressed()){
+            telemetry.addData("arm position: ", h.servoArm.getPosition());
+            telemetry.update();
+            if(gamepad1.left_bumper && !h.liftLimit.isPressed()){
                 moveArmUp = false;//override auto lift
                 moveArmDown = false;
-                h.motorLift.setPower(gamepad1.left_trigger*.75); //down
-            }if(gamepad1.left_bumper) {
+
+                if(h.servoArm.getPosition() > .29){
+                    if(rowTarget < 2 && !heightInc) {
+                        heightInc = true;
+                        rowTarget++;
+                    }
+                    h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    h.motorLift.setTargetPosition(liftBackdropRows[rowTarget]);
+                    h.motorLift.setPower(1);
+                    moveArmUp = true;
+                } else {
+                    h.motorLift.setPower(-.6); //down
+                }
+            }else if(gamepad1.left_trigger >= 0.05) {
                 moveArmUp = false;//override auto lift
                 moveArmDown = false;
-                h.motorLift.setPower(-.6); //up
+
+                if(h.servoArm.getPosition() >.29) {
+                    if (rowTarget > 0 && !heightInc) {
+                        heightInc = true;
+                        rowTarget--;
+                    }
+                    h.servoArm.setPosition(armBackdropRows[rowTarget]);
+                    h.servoExtension.setPosition(extensionBackdropRows[rowTarget]);
+                    h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    h.motorLift.setTargetPosition(liftBackdropRows[rowTarget]);
+                    h.motorLift.setPower(.5);
+                } else {
+                    h.motorLift.setPower(gamepad1.left_trigger*.75); //up
+                }
+            } else {
+                heightInc = false;
+            }
+            if(h.servoArm.getPosition() > .29){ //Math.abs(h.motorLift.getCurrentPosition() - backdropRows[liftTarget]) < 30
+                h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorLift.setTargetPosition(liftBackdropRows[rowTarget]);
+                h.motorLift.setPower(1);
             }else if(gamepad1.left_trigger < 0.05 && !gamepad1.left_bumper && !moveArmDown && !moveArmUp && !gamepad1.right_bumper){ //if no auto lift and no manual lift, stop motors
                 h.motorLift.setPower(0);
-            }
-
-            // Claw controls
-            if(gamepad1.x){ //Grab
-                h.servoClaw.setPosition(0.01);//00.1
-            }
-            if(gamepad1.y){ //Release
-                h.servoClaw.setPosition(.6);//.6
             }
 //            telemetry.addData("Servo Claw: ", h.servoClaw.getPosition());
 //            telemetry.addData("Servo Arm: ", h.servoArm.getPosition());
@@ -184,10 +170,13 @@ public class TeleOp2024 extends LinearOpMode {
 
             //Request to move Swing Arm
             if(gamepad1.dpad_up) {
+                h.servoClaw.setPosition(.262);
+                rowTarget = 0;
                 moveArmUp = true; // Request auto swing up
                 moveArmDown = false; // Override swing down
             }
             if(gamepad1.dpad_down) {
+                rowTarget = 0;
                 moveArmUp = false; // Override swing up
                 moveArmDown = true; // swing down
             }
@@ -195,14 +184,16 @@ public class TeleOp2024 extends LinearOpMode {
             // Move swing arm
             if(moveArmUp){ // If move up requested
                 // Continue to request to move swing arm until the lift is raised to its target or above and the arm has been set to the target position
-                moveArmUp = h.moveArm(0.45, liftTarget, 1.0);
+
+                moveArmUp = h.moveArm(armBackdropRows[rowTarget], liftBackdropRows[rowTarget], 1.0,extensionBackdropRows[rowTarget]);//.45
             }
             if(moveArmDown){ // If move down requested
+                outtakePressed = false;
                 // Continue to request to move swing arm until the lift is raised to -1200 or above and the arm has been set to the target position
-                moveArmDown = h.moveArm(0.22, -1300, 1.0);
+                moveArmDown = h.moveArm(0.105, liftBackdropRows[rowTarget], 1.0,.0495);
             }
 
-            // Lift the intake controls
+            // Lift the intake controlse
             if(gamepad2.dpad_down){
                 // Lower intake to flow (1 pixel high)
                 h.servoIntakeLift.setPosition(.76);//.76
@@ -219,19 +210,47 @@ public class TeleOp2024 extends LinearOpMode {
             // Intake controls
             if(gamepad1.right_trigger>.10) {
                 // Intake pixel
+                h.servoClaw.setPosition(.1);
                 h.motorIntake.setPower(gamepad1.right_trigger + .3);
             } else if(gamepad1.right_bumper) {
                 // Reverse intake (outtake)
                 h.motorIntake.setPower(-1);
-                if (h.motorLift.getCurrentPosition() > -475){
-                    h.motorLift.setTargetPosition(-475);
-                    h.motorLift.setPower(-.7);
                 } else {
-                    h.motorLift.setPower(0);
+                    h.motorIntake.setPower(0);
                 }
+
+            // Drone launching
+            if(gamepad2.a) {
+                h.servoDrone.setPosition(0);
             } else {
-                // Turn intake off when not in use
-                h.motorIntake.setPower(0);
+                h.servoDrone.setPosition(1);
+            }
+
+            if(gamepad1.b) {
+                h.servoExtension.setPosition(.8);
+            }
+            if(gamepad1.dpad_left) {
+                h.servoExtension.setPosition(.30);
+            }
+
+//            if(gamepad1.y) {
+//                h.servoClaw.setPosition(.225);
+//            }
+
+            if(gamepad1.x) {
+
+                    if (outtakePressed) {
+                        h.servoClaw.setPosition(.225);
+                        outtakePressed = false;
+                    } else {
+                        h.servoClaw.setPosition(.1);
+                        outtakePressed = true;
+                    }
+
+            }
+            if(gamepad1.a) {
+                h.servoClaw.setPosition(.262);
+
             }
         }
     }

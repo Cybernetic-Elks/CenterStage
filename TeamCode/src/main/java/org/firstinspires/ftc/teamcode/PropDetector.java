@@ -27,11 +27,11 @@ public class PropDetector extends OpenCvPipeline {
     private Location location;
 
     static final Rect LEFT_ROI = new Rect(
-            new Point(10, 70),
-            new Point(80, 120));
+            new Point(60, 140),
+            new Point(130, 190));
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(225, 80),
-            new Point(295, 130));
+            new Point(270, 140),
+            new Point(315, 190));
     static double PERCENT_COLOR_THRESHOLD = 0.1;
 
     public PropDetector(Telemetry t) { telemetry = t; }
